@@ -41,7 +41,11 @@ class ConversationViewController: ConversationBaseViewController {
         self.textInputbar.backgroundColor = MainAppTheme.chat.chatField
         self.textInputbar.autoHideRightButton = false;
         self.textView.placeholder = NSLocalizedString("ChatPlaceholder",comment: "Placeholder")
-        self.rightButton.setTitle(NSLocalizedString("ChatSend", comment: "Send"), forState: UIControlState.Normal)
+        self.rightButton.setImage(UIImage(named: "MicButton")!
+            .tintImage(MainAppTheme.chat.attachColor)
+            .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal),
+            forState: UIControlState.Normal)
+        self.rightButton.setTitle("", forState: UIControlState.Normal)
         self.rightButton.setTitleColor(MainAppTheme.chat.sendEnabled, forState: UIControlState.Normal)
         self.rightButton.setTitleColor(MainAppTheme.chat.sendDisabled, forState: UIControlState.Disabled)
         
@@ -60,13 +64,14 @@ class ConversationViewController: ConversationBaseViewController {
         self.audioButton.setTitleColor(UIColor.greenColor(),forState: .Highlighted) //触摸状态下文字的颜色
         self.textView.addSubview(self.audioButton)
         self.audioButton.hidden = true
-                
-        //@TODO 替换为语音图标
-        self.rightButton.setImage(UIImage(named: "conv_attach")!
-            .tintImage(MainAppTheme.chat.attachColor)
-            .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal),
-            forState: UIControlState.Normal)
-        self.rightButton.setTitle("", forState: UIControlState.Normal)
+        
+        //长按手势
+//        var longpressGesutre = UILongPressGestureRecognizer(target: self, action: "handleLongpressGesture:")
+        self.audioButton.addTarget(self, action: "onAudioRecordingStarted:", forControlEvents: UIControlEvents.TouchDown)
+        self.audioButton.addTarget(self, action: "onAudioRecordingFinished:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.audioButton.addTarget(self, action: "onAudioRecordingCancelled:", forControlEvents: UIControlEvents.TouchUpOutside)
+        self.audioButton.addTarget(self, action: "onAudioRecordingCancelled:", forControlEvents: UIControlEvents.TouchDragOutside)
+        self.audioButton.addTarget(self, action: "onAudioRecordingCancelled:", forControlEvents: UIControlEvents.TouchDragExit)
 
         self.leftButton.setImage(UIImage(named: "conv_attach")!
             .tintImage(MainAppTheme.chat.attachColor)
@@ -334,16 +339,17 @@ class ConversationViewController: ConversationBaseViewController {
         var text = self.textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         
         if (text.isEmpty) {
-            //@TODO 替换为语音图标
-            self.rightButton.setImage(UIImage(named: "conv_attach")!
+            self.rightButton.setImage(UIImage(named: "MicButton")!
                 .tintImage(MainAppTheme.chat.attachColor)
                 .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal),
                 forState: UIControlState.Normal)
             self.rightButton.setTitle("", forState: UIControlState.Normal)
             self.rightButton.enabled = true
-        }else{
+            self.rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 12, 0, 12);
+        } else {
             self.rightButton.setTitle(NSLocalizedString("ChatSend", comment: "Send"), forState: UIControlState.Normal)
             self.rightButton.setImage(nil,forState: UIControlState.Normal)
+            self.rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 6, 0, 6);
         }
     }
     
@@ -497,6 +503,20 @@ class ConversationViewController: ConversationBaseViewController {
             cell.layoutMargins = UIEdgeInsetsZero
         }
     }
+    
+    // MARK: -
+    // MARK: Audio recording callbacks
+    func onAudioRecordingStarted(sender: AnyObject) {
+        print("onAudioRecordingStarted\n")
+    }
+    
+    func onAudioRecordingFinished(sender: AnyObject) {
+        print("onAudioRecordingFinished\n")
+    }
+    
+    func onAudioRecordingCancelled(sender: AnyObject) {
+        print("onAudioRecordingCancelled\n")
+    }
 }
 
 // MARK: -
@@ -548,3 +568,5 @@ extension ConversationViewController: UIDocumentMenuDelegate {
         self.presentViewController(documentPicker, animated: true, completion: nil)
     }
 }
+
+
