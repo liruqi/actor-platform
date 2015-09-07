@@ -24,6 +24,7 @@ class ConversationViewController: ConversationBaseViewController {
     private let navigationView: UIView = UIView()
     private let avatarView = BarAvatarView(frameSize: 36, type: .Rounded)
     private let backgroundView: UIView = UIView()
+    private var audioButton: UIButton = UIButton()
     
     override init(peer: ACPeer) {
         super.init(peer: peer);
@@ -49,6 +50,23 @@ class ConversationViewController: ConversationBaseViewController {
         self.registerPrefixesForAutoCompletion(["@"])
         
         self.textView.keyboardAppearance = MainAppTheme.common.isDarkKeyboard ? UIKeyboardAppearance.Dark : UIKeyboardAppearance.Light
+        
+        self.audioButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        self.audioButton.frame=CGRectMake(0, 0, textView.frame.width, textView.frame.height)
+        self.audioButton.backgroundColor = UIColor.whiteColor()
+        self.audioButton.setTitle("按住 说话", forState:UIControlState.Normal) //普通状态下的文字
+        self.audioButton.setTitle("松开 结束", forState:UIControlState.Highlighted) //触摸状态下的文字
+        self.audioButton.setTitleColor(UIColor.blackColor(),forState: .Normal) //普通状态下文字的颜色
+        self.audioButton.setTitleColor(UIColor.greenColor(),forState: .Highlighted) //触摸状态下文字的颜色
+        self.textView.addSubview(self.audioButton)
+        self.audioButton.hidden = true
+                
+        //@TODO 替换为语音图标
+        self.rightButton.setImage(UIImage(named: "conv_attach")!
+            .tintImage(MainAppTheme.chat.attachColor)
+            .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal),
+            forState: UIControlState.Normal)
+        self.rightButton.setTitle("", forState: UIControlState.Normal)
 
         self.leftButton.setImage(UIImage(named: "conv_attach")!
             .tintImage(MainAppTheme.chat.attachColor)
@@ -306,12 +324,43 @@ class ConversationViewController: ConversationBaseViewController {
         super.textWillUpdate();
 
         Actor.onTypingWithPeer(peer);
+
+        
+    }
+    
+    override func textDidUpdate(animated: Bool) {
+        super.textDidUpdate(animated);
+        
+        var text = self.textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        
+        if (text.isEmpty) {
+            //@TODO 替换为语音图标
+            self.rightButton.setImage(UIImage(named: "conv_attach")!
+                .tintImage(MainAppTheme.chat.attachColor)
+                .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal),
+                forState: UIControlState.Normal)
+            self.rightButton.setTitle("", forState: UIControlState.Normal)
+            self.rightButton.enabled = true
+        }else{
+            self.rightButton.setTitle(NSLocalizedString("ChatSend", comment: "Send"), forState: UIControlState.Normal)
+            self.rightButton.setImage(nil,forState: UIControlState.Normal)
+        }
     }
     
     override func didPressRightButton(sender: AnyObject!) {
-        Actor.trackTextSendWithPeer(peer)
-        Actor.sendMessageWithMentionsDetect(peer, withText: textView.text)
-        super.didPressRightButton(sender)
+        var text = self.textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        
+        if(text.isEmpty){
+            if(self.audioButton.hidden){
+                self.audioButton.hidden = false;
+            }else{
+                self.audioButton.hidden = true;
+            }
+        }else{
+            Actor.trackTextSendWithPeer(peer)
+            Actor.sendMessageWithMentionsDetect(peer, withText: textView.text)
+            super.didPressRightButton(sender)
+        }
     }
     
     override func didPressLeftButton(sender: AnyObject!) {
