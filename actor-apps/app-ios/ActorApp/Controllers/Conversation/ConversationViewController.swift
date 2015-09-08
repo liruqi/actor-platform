@@ -525,7 +525,11 @@ class ConversationViewController: ConversationBaseViewController {
             var range = path.rangeOfString("/tmp", options: NSStringCompareOptions.allZeros, range: nil, locale: nil)
             var descriptor = path.substringFromIndex(range!.startIndex)
             NSLog("Audio Recording file: \(descriptor)")
-            Actor.sendDocumentWithPeer(self.peer, withName: "audio.ogg", withMime: "audio/ogg", withDescriptor: descriptor)
+            
+            Actor.sendDocumentWithPeer(self.peer,
+                withName: NSString.localizedStringWithFormat("%.0fs", duration + 0.5) as String,
+                withMime: "audio/ogg",
+                withDescriptor: descriptor)
         })
     }
     
