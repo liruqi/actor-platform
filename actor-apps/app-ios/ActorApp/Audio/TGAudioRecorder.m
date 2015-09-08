@@ -30,19 +30,6 @@
 
 @implementation TGAudioRecorder
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self != nil)
-    {
-        [[TGAudioRecorder audioRecorderQueue] dispatchOnQueue:^
-        {
-            _modernRecorder = [[TGOpusAudioRecorder alloc] initWithFileEncryption:false];
-        }];
-    }
-    return self;
-}
-
 - (void)dealloc
 {
     [self cleanup];
@@ -94,6 +81,7 @@ static void playSoundCompleted(__unused SystemSoundID ssID, __unused void *clien
         {
             if (granted)
             {
+                _modernRecorder = [[TGOpusAudioRecorder alloc] initWithFileEncryption:false];
                 NSTimeInterval prepareStart = CFAbsoluteTimeGetCurrent();
                 
                 [_timer invalidate];

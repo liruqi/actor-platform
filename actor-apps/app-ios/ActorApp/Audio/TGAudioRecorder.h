@@ -23,8 +23,6 @@
 @property (nonatomic, weak) id<TGAudioRecorderDelegate> delegate;
 @property (nonatomic, strong) id activityHolder;
 
-- (instancetype)init;
-
 - (void)start;
 - (NSTimeInterval)currentDuration;
 - (void)cancel;

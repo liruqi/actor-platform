@@ -516,13 +516,16 @@ class ConversationViewController: ConversationBaseViewController {
     
     func onAudioRecordingFinished(sender: AnyObject) {
         print("onAudioRecordingFinished\n")
-//        let completionBlock: (NSString, NSTimeInterval) -> Void = {path, duration in
-//            print(path)
-//            print(duration)
-//        }
         audioRecorder.finish({ (path: String!, duration: NSTimeInterval) -> Void in
-            print("onAudioRecordingFinished: " + path)
-            print(duration)
+            if (nil == path) {
+                print("onAudioRecordingFinished: empty path")
+                return
+            }
+            NSLog("onAudioRecordingFinished: %@ [%lfs]", path, duration)
+            var range = path.rangeOfString("/tmp", options: NSStringCompareOptions.allZeros, range: nil, locale: nil)
+            var descriptor = path.substringFromIndex(range!.startIndex)
+            NSLog("Audio Recording file: \(descriptor)")
+            Actor.sendDocumentWithPeer(self.peer, withName: "audio.ogg", withMime: "audio/ogg", withDescriptor: descriptor)
         })
     }
     
