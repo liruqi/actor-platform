@@ -46,6 +46,7 @@
 #import "ABPhoneField.h"
 #import "UIAppearance+Swift.h"
 #import "UIBarAppearance+Swift.h"
+#import "TGAudioRecorder.h"
 
 // Actor Core
 #import "ActorCore.h"

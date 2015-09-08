@@ -18,7 +18,7 @@ class ConversationViewController: ConversationBaseViewController {
     private let BubbleBannerIdentifier = "BubbleBannerIdentifier"
     
     private let binder: Binder = Binder();
-    
+    private let audioRecorder: TGAudioRecorder! = TGAudioRecorder()
     private let titleView: UILabel = UILabel()
     private let subtitleView: UILabel = UILabel()
     private let navigationView: UIView = UIView()
@@ -345,7 +345,7 @@ class ConversationViewController: ConversationBaseViewController {
                 forState: UIControlState.Normal)
             self.rightButton.setTitle("", forState: UIControlState.Normal)
             self.rightButton.enabled = true
-            self.rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 12, 0, 12);
+            self.rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 12, 0, 12)
         } else {
             self.rightButton.setTitle(NSLocalizedString("ChatSend", comment: "Send"), forState: UIControlState.Normal)
             self.rightButton.setImage(nil,forState: UIControlState.Normal)
@@ -356,13 +356,14 @@ class ConversationViewController: ConversationBaseViewController {
     override func didPressRightButton(sender: AnyObject!) {
         var text = self.textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         
-        if(text.isEmpty){
+        if(text.isEmpty) {
             if(self.audioButton.hidden){
                 self.audioButton.hidden = false;
-            }else{
+                self.textView.resignFirstResponder()
+            } else {
                 self.audioButton.hidden = true;
             }
-        }else{
+        } else {
             Actor.trackTextSendWithPeer(peer)
             Actor.sendMessageWithMentionsDetect(peer, withText: textView.text)
             super.didPressRightButton(sender)
@@ -508,6 +509,7 @@ class ConversationViewController: ConversationBaseViewController {
     // MARK: Audio recording callbacks
     func onAudioRecordingStarted(sender: AnyObject) {
         print("onAudioRecordingStarted\n")
+        
     }
     
     func onAudioRecordingFinished(sender: AnyObject) {
@@ -516,6 +518,15 @@ class ConversationViewController: ConversationBaseViewController {
     
     func onAudioRecordingCancelled(sender: AnyObject) {
         print("onAudioRecordingCancelled\n")
+    }
+    
+    func stopAudioRecording()
+    {
+        if (audioRecorder != nil)
+        {
+            audioRecorder.delegate = nil
+            audioRecorder.cancel()
+        }
     }
 }
 

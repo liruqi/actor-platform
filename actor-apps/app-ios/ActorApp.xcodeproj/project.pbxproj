@@ -54,6 +54,18 @@
 		53C89777A15FEC286C526E5EEB066B8E /* UATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DECDBC8DD771BBEE2810B6B0EC08988 /* UATableViewCell.swift */; };
 		542C6DCBA7C3F09B8815D2B153E8127B /* GroupMembersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180017C31477FD5929CAA45692E4BEE1 /* GroupMembersController.swift */; };
 		54C40D41266049E8CECFAE3E15D3A4EE /* BubbleLayouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4302C0C07ED64EF3AA1109AB0939FF23 /* BubbleLayouts.swift */; };
+		55FB2F141B9E42EC00C5EA03 /* TGAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F131B9E42EC00C5EA03 /* TGAudioRecorder.m */; };
+		55FB2F171B9E440700C5EA03 /* ASQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F161B9E440700C5EA03 /* ASQueue.m */; };
+		55FB2F1A1B9E442700C5EA03 /* TGTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F191B9E442700C5EA03 /* TGTimer.m */; };
+		55FB2F1D1B9E445700C5EA03 /* TGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F1C1B9E445700C5EA03 /* TGAlertView.m */; };
+		55FB2F201B9E44C400C5EA03 /* TGOpusAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F1F1B9E44C400C5EA03 /* TGOpusAudioRecorder.m */; };
+		55FB2F2C1B9E457600C5EA03 /* diag_range.c in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F221B9E457600C5EA03 /* diag_range.c */; };
+		55FB2F2D1B9E457600C5EA03 /* opus_header.c in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F241B9E457600C5EA03 /* opus_header.c */; };
+		55FB2F2E1B9E457600C5EA03 /* opusenc.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F271B9E457600C5EA03 /* opusenc.m */; };
+		55FB2F2F1B9E457600C5EA03 /* picture.c in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F281B9E457600C5EA03 /* picture.c */; };
+		55FB2F301B9E457600C5EA03 /* wav_io.c in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F2A1B9E457600C5EA03 /* wav_io.c */; };
+		55FB2F361B9E4D6A00C5EA03 /* bitwise.c in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F321B9E4D6A00C5EA03 /* bitwise.c */; };
+		55FB2F371B9E4D6A00C5EA03 /* framing.c in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F331B9E4D6A00C5EA03 /* framing.c */; };
 		5871DD622997F22DDDACA5FD33663BE8 /* Conversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AEEE09EE154156E7009B6AF0A2DF79 /* Conversions.swift */; };
 		58EBAD40CE1F2F4095DACB5803FB57DA /* IntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C2A3EF21AD5C5CCF8BDA8D2B6B51D2 /* IntegrationViewController.swift */; };
 		5B390BB56CF35C7E70BA1B14BF9A8DC3 /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56732A333F4D42DCFF616A4B4FBCD921 /* MainSplitViewController.swift */; };
@@ -195,6 +207,30 @@
 		4E231579EDA5DA78824CB084B6BDEA46 /* Months.properties */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Months.properties; path = ../core/src/main/resources/Months.properties; sourceTree = "<group>"; };
 		51407CFA80BA5C7F30CB1D2507FA116C /* AABubbleMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AABubbleMediaCell.swift; path = Controllers/Conversation/Cells/AABubbleMediaCell.swift; sourceTree = "<group>"; };
 		515D3372049F764FD52867D78E261A2E /* AAImagePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AAImagePickerController.swift; path = "Controllers Support/AAImagePickerController.swift"; sourceTree = "<group>"; };
+		55FB2F121B9E42EC00C5EA03 /* TGAudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGAudioRecorder.h; sourceTree = "<group>"; };
+		55FB2F131B9E42EC00C5EA03 /* TGAudioRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGAudioRecorder.m; sourceTree = "<group>"; };
+		55FB2F151B9E440700C5EA03 /* ASQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASQueue.h; sourceTree = "<group>"; };
+		55FB2F161B9E440700C5EA03 /* ASQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASQueue.m; sourceTree = "<group>"; };
+		55FB2F181B9E442700C5EA03 /* TGTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGTimer.h; sourceTree = "<group>"; };
+		55FB2F191B9E442700C5EA03 /* TGTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGTimer.m; sourceTree = "<group>"; };
+		55FB2F1B1B9E445700C5EA03 /* TGAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGAlertView.h; sourceTree = "<group>"; };
+		55FB2F1C1B9E445700C5EA03 /* TGAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGAlertView.m; sourceTree = "<group>"; };
+		55FB2F1E1B9E44C400C5EA03 /* TGOpusAudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGOpusAudioRecorder.h; sourceTree = "<group>"; };
+		55FB2F1F1B9E44C400C5EA03 /* TGOpusAudioRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGOpusAudioRecorder.m; sourceTree = "<group>"; };
+		55FB2F221B9E457600C5EA03 /* diag_range.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = diag_range.c; sourceTree = "<group>"; };
+		55FB2F231B9E457600C5EA03 /* diag_range.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = diag_range.h; sourceTree = "<group>"; };
+		55FB2F241B9E457600C5EA03 /* opus_header.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = opus_header.c; sourceTree = "<group>"; };
+		55FB2F251B9E457600C5EA03 /* opus_header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opus_header.h; sourceTree = "<group>"; };
+		55FB2F261B9E457600C5EA03 /* opusenc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opusenc.h; sourceTree = "<group>"; };
+		55FB2F271B9E457600C5EA03 /* opusenc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = opusenc.m; sourceTree = "<group>"; };
+		55FB2F281B9E457600C5EA03 /* picture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = picture.c; sourceTree = "<group>"; };
+		55FB2F291B9E457600C5EA03 /* picture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = picture.h; sourceTree = "<group>"; };
+		55FB2F2A1B9E457600C5EA03 /* wav_io.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wav_io.c; sourceTree = "<group>"; };
+		55FB2F2B1B9E457600C5EA03 /* wav_io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wav_io.h; sourceTree = "<group>"; };
+		55FB2F321B9E4D6A00C5EA03 /* bitwise.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bitwise.c; sourceTree = "<group>"; };
+		55FB2F331B9E4D6A00C5EA03 /* framing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = framing.c; sourceTree = "<group>"; };
+		55FB2F341B9E4D6A00C5EA03 /* ogg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ogg.h; sourceTree = "<group>"; };
+		55FB2F351B9E4D6A00C5EA03 /* os_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_types.h; sourceTree = "<group>"; };
 		561E3DDF5D90B257A86D90E7ECD79A9D /* AuthCountriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthCountriesViewController.swift; path = Controllers/Auth/AuthCountriesViewController.swift; sourceTree = "<group>"; };
 		56732A333F4D42DCFF616A4B4FBCD921 /* MainSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainSplitViewController.swift; path = Controllers/Main/MainSplitViewController.swift; sourceTree = "<group>"; };
 		5723C9979B9135C0C75E44DA11D27E39 /* DialogsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DialogsViewController.swift; path = Controllers/Dialogs/DialogsViewController.swift; sourceTree = "<group>"; };
@@ -439,6 +475,53 @@
 				4A361DB05182E8EB2C22896C1FD3102F /* Months_Ru.properties */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		55FB2F111B9E42E100C5EA03 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				55FB2F311B9E4D6A00C5EA03 /* ogg */,
+				55FB2F211B9E457600C5EA03 /* opusenc */,
+				55FB2F151B9E440700C5EA03 /* ASQueue.h */,
+				55FB2F161B9E440700C5EA03 /* ASQueue.m */,
+				55FB2F1E1B9E44C400C5EA03 /* TGOpusAudioRecorder.h */,
+				55FB2F1F1B9E44C400C5EA03 /* TGOpusAudioRecorder.m */,
+				55FB2F1B1B9E445700C5EA03 /* TGAlertView.h */,
+				55FB2F1C1B9E445700C5EA03 /* TGAlertView.m */,
+				55FB2F121B9E42EC00C5EA03 /* TGAudioRecorder.h */,
+				55FB2F131B9E42EC00C5EA03 /* TGAudioRecorder.m */,
+				55FB2F181B9E442700C5EA03 /* TGTimer.h */,
+				55FB2F191B9E442700C5EA03 /* TGTimer.m */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		55FB2F211B9E457600C5EA03 /* opusenc */ = {
+			isa = PBXGroup;
+			children = (
+				55FB2F221B9E457600C5EA03 /* diag_range.c */,
+				55FB2F231B9E457600C5EA03 /* diag_range.h */,
+				55FB2F241B9E457600C5EA03 /* opus_header.c */,
+				55FB2F251B9E457600C5EA03 /* opus_header.h */,
+				55FB2F261B9E457600C5EA03 /* opusenc.h */,
+				55FB2F271B9E457600C5EA03 /* opusenc.m */,
+				55FB2F281B9E457600C5EA03 /* picture.c */,
+				55FB2F291B9E457600C5EA03 /* picture.h */,
+				55FB2F2A1B9E457600C5EA03 /* wav_io.c */,
+				55FB2F2B1B9E457600C5EA03 /* wav_io.h */,
+			);
+			path = opusenc;
+			sourceTree = "<group>";
+		};
+		55FB2F311B9E4D6A00C5EA03 /* ogg */ = {
+			isa = PBXGroup;
+			children = (
+				55FB2F321B9E4D6A00C5EA03 /* bitwise.c */,
+				55FB2F331B9E4D6A00C5EA03 /* framing.c */,
+				55FB2F341B9E4D6A00C5EA03 /* ogg.h */,
+				55FB2F351B9E4D6A00C5EA03 /* os_types.h */,
+			);
+			path = ogg;
 			sourceTree = "<group>";
 		};
 		64954644785E2BA82C41E6B10751D40F /* Intro */ = {
@@ -689,6 +772,7 @@
 		D0310FF36675D7510E52D86CDA8E2C6C /* ActorApp */ = {
 			isa = PBXGroup;
 			children = (
+				55FB2F111B9E42E100C5EA03 /* Audio */,
 				A3FEAE88468656EC39A9C2815D800D61 /* Controllers */,
 				D04CB77D27D3C8277257B0843F10042F /* Controllers Support */,
 				75DC9F2DE93F0AFA6A85B53C4B694EAE /* Resources */,
@@ -804,7 +888,7 @@
 				TargetAttributes = {
 					EA6B7348F8364542DDD264F741AAAA19 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = HVJR44Y5B6;
+						DevelopmentTeam = M54LAUT7S6;
 						SystemCapabilities = {
 							com.apple.iCloud = {
 								enabled = 1;
@@ -941,6 +1025,7 @@
 				7226E099F1D301533F030787EAC6E94B /* Alerts.swift in Sources */,
 				DFE814D1E12D2647AF2DBA3F76405F06 /* AppDelegate.swift in Sources */,
 				D1AE902CEB4CF563A8E5F86B52D28B82 /* AppTheme.swift in Sources */,
+				55FB2F361B9E4D6A00C5EA03 /* bitwise.c in Sources */,
 				6F37CDEFD008D3AC4F5D422323BDBD7B /* AssociatedObject.swift in Sources */,
 				F7F742B609237C411D6C2EE0B6E2F212 /* AuthCountriesViewController.swift in Sources */,
 				36020A34B882BC9BB7DA87E84545CE84 /* AuthCountryCell.swift in Sources */,
@@ -954,6 +1039,7 @@
 				E4722445FFBFBDD5EF58B4B1C5D957C8 /* BigPlaceholderView.swift in Sources */,
 				0AA06E7DC00FC7267A50485F830C9C1D /* Binder.swift in Sources */,
 				E8172B3FE77CEEA46F355F0F4D5D3C06 /* BubbleBackgroundProcessor.swift in Sources */,
+				55FB2F171B9E440700C5EA03 /* ASQueue.m in Sources */,
 				54C40D41266049E8CECFAE3E15D3A4EE /* BubbleLayouts.swift in Sources */,
 				0697229ADDEB47FD0793551932F43DA6 /* CircullarLayerProgress.swift in Sources */,
 				6371DDB5904628A9BC6D8908EBCF59E8 /* CircullarNode.swift in Sources */,
@@ -962,13 +1048,16 @@
 				957F74E157A5735103DDFE4D53E57A56 /* CocoaHttpRuntime.swift in Sources */,
 				502D1B8825055C6602281A7BB967E803 /* CocoaMessenger.swift in Sources */,
 				9C39B6644A7A2B8E04641B2772C30753 /* CocoaNetworkRuntime.swift in Sources */,
+				55FB2F301B9E457600C5EA03 /* wav_io.c in Sources */,
 				82DE36F3B4199CCF638923BCDFD6688B /* CocoaStorageRuntime.swift in Sources */,
 				694BB9EB1A442B5C8E95DF19884325C6 /* Colors.swift in Sources */,
 				360E8AC7B412C97E3AC5C65996D8B7B1 /* CommonCell.swift in Sources */,
 				4C338EACE8C572D24AF45F734DFEE1CB /* ComposeController.swift in Sources */,
 				0224F1E3828DAA4189723FDA24F29984 /* Config.swift in Sources */,
+				55FB2F201B9E44C400C5EA03 /* TGOpusAudioRecorder.m in Sources */,
 				6B9C1168FE9DE8E5DDE9D195708EB934 /* ContactActionCell.swift in Sources */,
 				1C57E8822889043C4B941EE3DDC18855 /* ContactCell.swift in Sources */,
+				55FB2F2C1B9E457600C5EA03 /* diag_range.c in Sources */,
 				FA9171F0314B2A986F655C5B2E1C7F3D /* ContactsBaseViewController.swift in Sources */,
 				FC6E7CF62A1986EE75BF6705A5BF189D /* ContactsSearchSource.swift in Sources */,
 				B163A68BD0891E862DE6480CA566F6BD /* ContactsViewController.swift in Sources */,
@@ -979,6 +1068,7 @@
 				A518095674F4A4913BA8A0A324DFD09B /* DialogCell.swift in Sources */,
 				0689FDC28E670B8183BE15C0BAFECC88 /* DialogsSearchCell.swift in Sources */,
 				82FE98B3C0EEF9E06E874797748C1AE1 /* DialogsSearchSource.swift in Sources */,
+				55FB2F1A1B9E442700C5EA03 /* TGTimer.m in Sources */,
 				3AE9F55711E4A056A1C668FFE101F83F /* DialogsViewController.swift in Sources */,
 				36CC99405176C73193B430D9320DD440 /* DiscoverViewController.swift in Sources */,
 				17E5CC6E8C3968A8F3CB12B783682128 /* EditTextController.swift in Sources */,
@@ -990,6 +1080,7 @@
 				CB06179197AB7EB66FBA1CAB3ADCCDDC /* FMDBList.swift in Sources */,
 				E214A2620D8EA7D5B19AA28FA71B84FD /* FastCache.swift in Sources */,
 				CB557F2818385B009F260E82EAB9F9D7 /* FileTypes.swift in Sources */,
+				55FB2F2F1B9E457600C5EA03 /* picture.c in Sources */,
 				7CE85C6ABE02732D61912417F25E7E34 /* GroupCreateViewController.swift in Sources */,
 				7FA5159C416DFAF518CC0AD68021FD3A /* GroupMemberCell.swift in Sources */,
 				542C6DCBA7C3F09B8815D2B153E8127B /* GroupMembersController.swift in Sources */,
@@ -1006,12 +1097,15 @@
 				F6F5EC11D803F893088AF8F8267055ED /* MainTabViewController.swift in Sources */,
 				017FA9031F79FFBEA86351F2F3ADB8D3 /* Makefile in Sources */,
 				D6AA6CCE078399CA702E7F03094453D5 /* MeasureUtils.swift in Sources */,
+				55FB2F141B9E42EC00C5EA03 /* TGAudioRecorder.m in Sources */,
 				E53FAE1C8969DECE56280C942CED0F57 /* MessagesLayout.swift in Sources */,
 				BE591031FF67D3E4E6D9D92D0757AFCA /* MixpanelProvider.swift in Sources */,
 				132FAF64C7A06E5D6578B49E5DD6EBC9 /* Navigtions.swift in Sources */,
 				8071F48ACB9E359116BEE7450C3E5AD6 /* NoSelectionViewController.swift in Sources */,
 				6FF92ED0DB91181E376DA71BE7A89CE4 /* Placeholders.swift in Sources */,
+				55FB2F2E1B9E457600C5EA03 /* opusenc.m in Sources */,
 				1E0DC2E12B3919AD7A8A61316298F0AD /* PublicCell.swift in Sources */,
+				55FB2F1D1B9E445700C5EA03 /* TGAlertView.m in Sources */,
 				EDCFCAD9F29CF123468677A31DE2E84F /* Resouces.swift in Sources */,
 				0CA595BCB5F16107145374B11C486D6A /* SearchSource.swift in Sources */,
 				3BCA9C46B430D01167A6DCC17EA83FCC /* SettingsNotificationsViewController.swift in Sources */,
@@ -1023,6 +1117,7 @@
 				4EBCB8645A49DA83D532CAC4C60673CC /* TextCell.swift in Sources */,
 				0B6A05B711CA9DCD88C79CCA8104C0F1 /* TitledCell.swift in Sources */,
 				ECB5DDB2F5C2FF7FF51921C8AA9F22CC /* UATableData.swift in Sources */,
+				55FB2F2D1B9E457600C5EA03 /* opus_header.c in Sources */,
 				53C89777A15FEC286C526E5EEB066B8E /* UATableViewCell.swift in Sources */,
 				B8D161AA4D112C75BE92D727FE46727E /* UDPreferencesStorage.swift in Sources */,
 				4B103F08E258F27D22917DBB618F87B6 /* UIAppearance+Swift.m in Sources */,
@@ -1030,6 +1125,7 @@
 				3B74078BDAEC2C1428A71F2F6FF143F4 /* UserPhotoCell.swift in Sources */,
 				1DAA5358C4F67BDEECAC31CB61182B1D /* UserViewController.swift in Sources */,
 				A4F064AEA9D3CCA53CDBA194C71C342B /* Utils.swift in Sources */,
+				55FB2F371B9E4D6A00C5EA03 /* framing.c in Sources */,
 				61B1EF2014125C07D1AF3B6BCEBF78E7 /* Views.swift in Sources */,
 				14BF6FDE6BA7069F9343E427D46EAF47 /* Wrappers.swift in Sources */,
 				78961A227F17A26CE96DFB39D8BE84F1 /* iOSNotificationProvider.swift in Sources */,
@@ -1080,6 +1176,55 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_OPTIMIZATION_LEVEL = fast;
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libz",
+					"\"${PODS_ROOT}/libopus/silk\"",
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AsyncDisplayKit\"",
+					"\"${PODS_ROOT}/Headers/Public/BlockAlertsAnd-ActionSheets\"",
+					"\"${PODS_ROOT}/Headers/Public/CLTokenInputView\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNEmptyDataSet\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNPhotoPickerController\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNPhotoPickerController/Classes\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNPhotoPickerController/Classes/DZNPhotoService\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNPhotoPickerController/Classes/UIImagePickerController\"",
+					"\"${PODS_ROOT}/Headers/Public/FMDB\"",
+					"\"${PODS_ROOT}/Headers/Public/HockeySDK\"",
+					"\"${PODS_ROOT}/Headers/Public/HockeySDK/HockeySDK\"",
+					"\"${PODS_ROOT}/Headers/Public/JVFloatLabeledTextField\"",
+					"\"${PODS_ROOT}/Headers/Public/LTNavigationBar\"",
+					"\"${PODS_ROOT}/Headers/Public/M13ProgressSuite\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/MDRadialProgress\"",
+					"\"${PODS_ROOT}/Headers/Public/Mixpanel\"",
+					"\"${PODS_ROOT}/Headers/Public/NYTPhotoViewer\"",
+					"\"${PODS_ROOT}/Headers/Public/PEPhotoCropEditor\"",
+					"\"${PODS_ROOT}/Headers/Public/PHFComposeBarView\"",
+					"\"${PODS_ROOT}/Headers/Public/PHFDelegateChain\"",
+					"\"${PODS_ROOT}/Headers/Public/PSTAlertController\"",
+					"\"${PODS_ROOT}/Headers/Public/RMPhoneFormat\"",
+					"\"${PODS_ROOT}/Headers/Public/RMUniversalAlert\"",
+					"\"${PODS_ROOT}/Headers/Public/RegexKitLite\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/SlackTextViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/SlackTextViewController/Additions\"",
+					"\"${PODS_ROOT}/Headers/Public/SlackTextViewController/Classes\"",
+					"\"${PODS_ROOT}/Headers/Public/SplunkMint-iOS\"",
+					"\"${PODS_ROOT}/Headers/Public/TTTAttributedLabel\"",
+					"\"${PODS_ROOT}/Headers/Public/TWMessageBarManager\"",
+					"\"${PODS_ROOT}/Headers/Public/UIActionSheet+Blocks\"",
+					"\"${PODS_ROOT}/Headers/Public/UIAlertController+Blocks\"",
+					"\"${PODS_ROOT}/Headers/Public/UIAlertView+Blocks\"",
+					"\"${PODS_ROOT}/Headers/Public/VBFPopFlatButton\"",
+					"\"${PODS_ROOT}/Headers/Public/libopus\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"\"${PODS_ROOT}/libopus/silk\"",
+					ActorApp/Audio,
+				);
 				INFOPLIST_FILE = "ActorApp/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1190,6 +1335,55 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_OPTIMIZATION_LEVEL = fast;
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libz",
+					"\"${PODS_ROOT}/libopus/silk\"",
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AsyncDisplayKit\"",
+					"\"${PODS_ROOT}/Headers/Public/BlockAlertsAnd-ActionSheets\"",
+					"\"${PODS_ROOT}/Headers/Public/CLTokenInputView\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNEmptyDataSet\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNPhotoPickerController\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNPhotoPickerController/Classes\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNPhotoPickerController/Classes/DZNPhotoService\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNPhotoPickerController/Classes/UIImagePickerController\"",
+					"\"${PODS_ROOT}/Headers/Public/FMDB\"",
+					"\"${PODS_ROOT}/Headers/Public/HockeySDK\"",
+					"\"${PODS_ROOT}/Headers/Public/HockeySDK/HockeySDK\"",
+					"\"${PODS_ROOT}/Headers/Public/JVFloatLabeledTextField\"",
+					"\"${PODS_ROOT}/Headers/Public/LTNavigationBar\"",
+					"\"${PODS_ROOT}/Headers/Public/M13ProgressSuite\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/MDRadialProgress\"",
+					"\"${PODS_ROOT}/Headers/Public/Mixpanel\"",
+					"\"${PODS_ROOT}/Headers/Public/NYTPhotoViewer\"",
+					"\"${PODS_ROOT}/Headers/Public/PEPhotoCropEditor\"",
+					"\"${PODS_ROOT}/Headers/Public/PHFComposeBarView\"",
+					"\"${PODS_ROOT}/Headers/Public/PHFDelegateChain\"",
+					"\"${PODS_ROOT}/Headers/Public/PSTAlertController\"",
+					"\"${PODS_ROOT}/Headers/Public/RMPhoneFormat\"",
+					"\"${PODS_ROOT}/Headers/Public/RMUniversalAlert\"",
+					"\"${PODS_ROOT}/Headers/Public/RegexKitLite\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/SlackTextViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/SlackTextViewController/Additions\"",
+					"\"${PODS_ROOT}/Headers/Public/SlackTextViewController/Classes\"",
+					"\"${PODS_ROOT}/Headers/Public/SplunkMint-iOS\"",
+					"\"${PODS_ROOT}/Headers/Public/TTTAttributedLabel\"",
+					"\"${PODS_ROOT}/Headers/Public/TWMessageBarManager\"",
+					"\"${PODS_ROOT}/Headers/Public/UIActionSheet+Blocks\"",
+					"\"${PODS_ROOT}/Headers/Public/UIAlertController+Blocks\"",
+					"\"${PODS_ROOT}/Headers/Public/UIAlertView+Blocks\"",
+					"\"${PODS_ROOT}/Headers/Public/VBFPopFlatButton\"",
+					"\"${PODS_ROOT}/Headers/Public/libopus\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"\"${PODS_ROOT}/libopus/silk\"",
+					ActorApp/Audio,
+				);
 				INFOPLIST_FILE = "ActorApp/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

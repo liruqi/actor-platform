@@ -40,4 +40,7 @@ target 'ActorApp' do
     # Tracking
     pod 'SplunkMint-iOS'
     pod 'Mixpanel'
+
+    # Audio
+    pod 'libopus'
 end
