@@ -509,7 +509,7 @@ class ConversationViewController: ConversationBaseViewController {
     // MARK: Audio recording callbacks
     func onAudioRecordingStarted(sender: AnyObject) {
         print("onAudioRecordingStarted\n")
-//        stopAudioRecording()
+        stopAudioRecording()
         
         audioRecorder.start()
     }

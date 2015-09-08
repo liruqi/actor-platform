@@ -55,7 +55,7 @@ static dispatch_semaphore_t playSoundSemaphore = nil;
     {
         int64_t randomId = 0;
         arc4random_buf(&randomId, 8);
-        _tempFilePath = [NSTemporaryDirectory() stringByAppendingString:[[NSString alloc] initWithFormat:@"%" PRIx64 ".m4a", randomId]];
+        _tempFilePath = [NSTemporaryDirectory() stringByAppendingString:[[NSString alloc] initWithFormat:@"%" PRIx64 ".ogg", randomId]];
         
         [[TGOpusAudioRecorder processingQueue] dispatchOnQueue:^
         {

@@ -21,8 +21,6 @@
 
 @interface TGAudioRecorder () <AVAudioRecorderDelegate>
 {
-    NSString *_tempFilePath;
-    
     TGTimer *_timer;
     
     TGOpusAudioRecorder *_modernRecorder;
@@ -39,10 +37,6 @@
     {
         [[TGAudioRecorder audioRecorderQueue] dispatchOnQueue:^
         {
-            int64_t randomId = 0;
-            arc4random_buf(&randomId, sizeof(randomId));
-            _tempFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSString alloc] initWithFormat:@"%" PRIx64 ".m4a", randomId]];
-            
             _modernRecorder = [[TGOpusAudioRecorder alloc] initWithFileEncryption:false];
         }];
     }
@@ -192,7 +186,6 @@ static void playSoundCompleted(__unused SystemSoundID ssID, __unused void *clien
     [[TGAudioRecorder audioRecorderQueue] dispatchOnQueue:^
     {
         [self cleanup];
-        [[NSFileManager defaultManager] removeItemAtPath:_tempFilePath error:nil];
     }];
 }
 
