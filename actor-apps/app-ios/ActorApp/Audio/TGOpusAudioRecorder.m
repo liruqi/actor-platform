@@ -393,7 +393,7 @@ static OSStatus TGOpusRecordingCallback(void *inRefCon, AudioUnitRenderActionFla
     }
 }
 
-- (NSString *)stop:(NSTimeInterval *)recordedDuration liveData:(__autoreleasing TGLiveUploadActorData **)liveData
+- (NSString *)stop:(NSTimeInterval *)recordedDuration
 {
     __block NSString *pathResult = nil;
     __block NSTimeInterval durationResult = 0.0;
@@ -414,15 +414,6 @@ static OSStatus TGOpusRecordingCallback(void *inRefCon, AudioUnitRenderActionFla
     
     if (recordedDuration != NULL)
         *recordedDuration = durationResult;
-    
-    if (liveData != NULL)
-    {
-//        dispatch_sync([ActionStageInstance() globalStageDispatchQueue], ^
-//        {
-//            TGLiveUploadActor *actor = (TGLiveUploadActor *)[ActionStageInstance() executingActorWithPath:_liveUploadPath];
-//            *liveData = [actor finishRestOfFile:totalBytes];
-//        });
-    }
     
     return pathResult;
 }

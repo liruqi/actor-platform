@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @class TGAudioRecorder;
-@class TGLiveUploadActorData;
 
 @protocol TGAudioRecorderDelegate <NSObject>
 
@@ -29,6 +28,6 @@
 - (void)start;
 - (NSTimeInterval)currentDuration;
 - (void)cancel;
-- (void)finish:(void (^)(NSString *, NSTimeInterval, TGLiveUploadActorData *))completion;
+- (void)finish:(void (^)(NSString *, NSTimeInterval))completion;
 
 @end

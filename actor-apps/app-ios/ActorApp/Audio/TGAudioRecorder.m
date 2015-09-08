@@ -183,7 +183,7 @@ static void playSoundCompleted(__unused SystemSoundID ssID, __unused void *clien
         [timer invalidate];
         
         if (modernRecorder != nil)
-            [modernRecorder stop:NULL liveData:NULL];
+            [modernRecorder stop:NULL];
     }];
 }
 
@@ -196,18 +196,17 @@ static void playSoundCompleted(__unused SystemSoundID ssID, __unused void *clien
     }];
 }
 
-- (void)finish:(void (^)(NSString *, NSTimeInterval, TGLiveUploadActorData *))completion
+- (void)finish:(void (^)(NSString *, NSTimeInterval))completion
 {
     [[TGAudioRecorder audioRecorderQueue] dispatchOnQueue:^
     {
         NSString *resultPath = nil;
         NSTimeInterval resultDuration = 0.0;
-        __autoreleasing TGLiveUploadActorData *liveData = nil;
         
         if (_modernRecorder != nil)
         {
             NSTimeInterval recordedDuration = 0.0;
-            NSString *path = [_modernRecorder stop:&recordedDuration liveData:&liveData];
+            NSString *path = [_modernRecorder stop:&recordedDuration];
             if (path != nil && recordedDuration > 0.5)
             {
                 resultPath = path;
@@ -216,7 +215,7 @@ static void playSoundCompleted(__unused SystemSoundID ssID, __unused void *clien
         }
         
         if (completion != nil)
-            completion(resultPath, resultDuration, liveData);
+            completion(resultPath, resultDuration);
     }];
 }
 

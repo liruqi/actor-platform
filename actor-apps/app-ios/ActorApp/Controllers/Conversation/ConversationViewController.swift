@@ -509,15 +509,26 @@ class ConversationViewController: ConversationBaseViewController {
     // MARK: Audio recording callbacks
     func onAudioRecordingStarted(sender: AnyObject) {
         print("onAudioRecordingStarted\n")
+//        stopAudioRecording()
         
+        audioRecorder.start()
     }
     
     func onAudioRecordingFinished(sender: AnyObject) {
         print("onAudioRecordingFinished\n")
+//        let completionBlock: (NSString, NSTimeInterval) -> Void = {path, duration in
+//            print(path)
+//            print(duration)
+//        }
+        audioRecorder.finish({ (path: String!, duration: NSTimeInterval) -> Void in
+            print("onAudioRecordingFinished: " + path)
+            print(duration)
+        })
     }
     
     func onAudioRecordingCancelled(sender: AnyObject) {
         print("onAudioRecordingCancelled\n")
+        stopAudioRecording()
     }
     
     func stopAudioRecording()
