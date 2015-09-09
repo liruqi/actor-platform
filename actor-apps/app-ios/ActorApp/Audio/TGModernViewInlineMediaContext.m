@@ -7,6 +7,16 @@
  */
 
 #import "TGModernViewInlineMediaContext.h"
+#import <mach/mach_time.h>
+
+MTAbsoluteTime MTAbsoluteSystemTime()
+{
+    static mach_timebase_info_data_t s_timebase_info;
+    if (s_timebase_info.denom == 0)
+        mach_timebase_info(&s_timebase_info);
+    
+    return ((MTAbsoluteTime)(mach_absolute_time() * s_timebase_info.numer)) / (s_timebase_info.denom * NSEC_PER_SEC);
+}
 
 @implementation TGModernViewInlineMediaContext
 
@@ -61,7 +71,7 @@
 
 - (void)postUpdatePlaybackPosition:(bool)sync
 {
-    MTAbsoluteTime timestamp = MTAbsoluteSystemTime();
+    NSTimeInterval timestamp = MTAbsoluteSystemTime();
     float position = [self playbackPosition:&timestamp sync:sync];
     
     id<TGModernViewInlineMediaContextDelegate> delegate = _delegate;

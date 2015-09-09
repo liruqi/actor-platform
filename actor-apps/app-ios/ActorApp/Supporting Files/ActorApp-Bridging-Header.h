@@ -40,6 +40,7 @@
 #import <HockeySDK/HockeySDK.h>
 #import <AddressBook/AddressBook.h>
 #import <Mixpanel/Mixpanel.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 // ObjC classes
 #import "ABActionShit.h"
@@ -47,6 +48,8 @@
 #import "UIAppearance+Swift.h"
 #import "UIBarAppearance+Swift.h"
 #import "TGAudioRecorder.h"
+#import "TGAudioPlayer.h"
+#import "TGModernConversationAudioPlayer.h"
 
 // Actor Core
 #import "ActorCore.h"

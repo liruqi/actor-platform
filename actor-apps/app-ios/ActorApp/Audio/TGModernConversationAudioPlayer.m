@@ -170,7 +170,7 @@
 
 - (void)audioPlayerDidFinishPlaying:(TGAudioPlayer *)__unused audioPlayer
 {
-    TGDispatchOnMainThread(^
+    dispatch_async(dispatch_get_main_queue(), ^
     {
         _isPaused = true;
         

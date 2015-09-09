@@ -138,7 +138,16 @@ class AABubbleDocumentCell: AABubbleBaseFileCell {
                 }, onDownloaded: { (reference) -> () in
                     var docController = UIDocumentInteractionController(URL: NSURL(fileURLWithPath: CocoaFiles.pathFromDescriptor(reference))!)
                     docController.delegate = self
-                    docController.presentPreviewAnimated(true)
+                    if (docController.presentPreviewAnimated(true)) {
+                        return
+                    }
+                    
+//                    if (content.getMimeType() == "audio/ogg")
+                    if (content.getName().hasSuffix(".ogg")) {
+                        let audioPlayer = TGModernConversationAudioPlayer(filePath:CocoaFiles.pathFromDescriptor(reference))
+                        audioPlayer.play(0)
+                        return
+                    }
             }))
         } else if let fileSource = content.getSource() as? ACFileLocalSource {
             var rid = bindedMessage!.rid
@@ -150,7 +159,15 @@ class AABubbleDocumentCell: AABubbleBaseFileCell {
                 }, onUploadedClosure: { () -> () in
                     var docController = UIDocumentInteractionController(URL: NSURL(fileURLWithPath: CocoaFiles.pathFromDescriptor(fileSource.getFileDescriptor()))!)
                     docController.delegate = self
-                    docController.presentPreviewAnimated(true)
+                    if (docController.presentPreviewAnimated(true)) {
+                        return
+                    }
+                    
+                    if (content.getName().hasSuffix(".ogg")) {
+                        let audioPlayer = TGModernConversationAudioPlayer(filePath:CocoaFiles.pathFromDescriptor(fileSource.getFileDescriptor()))
+                        audioPlayer.play(0)
+                        return
+                    }
             }))
         }
     }

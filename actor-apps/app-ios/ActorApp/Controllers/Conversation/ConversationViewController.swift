@@ -510,12 +510,13 @@ class ConversationViewController: ConversationBaseViewController {
     func onAudioRecordingStarted(sender: AnyObject) {
         print("onAudioRecordingStarted\n")
         stopAudioRecording()
-        
+        SVProgressHUD.showWithStatus("手指上滑，取消发送")
         audioRecorder.start()
     }
     
     func onAudioRecordingFinished(sender: AnyObject) {
         print("onAudioRecordingFinished\n")
+        SVProgressHUD.dismiss()
         audioRecorder.finish({ (path: String!, duration: NSTimeInterval) -> Void in
             if (nil == path) {
                 print("onAudioRecordingFinished: empty path")
@@ -527,7 +528,7 @@ class ConversationViewController: ConversationBaseViewController {
             NSLog("Audio Recording file: \(descriptor)")
             
             Actor.sendDocumentWithPeer(self.peer,
-                withName: NSString.localizedStringWithFormat("%.0fs", duration + 0.5) as String,
+                withName: NSString.localizedStringWithFormat("%.0fs.ogg", duration + 0.5) as String,
                 withMime: "audio/ogg",
                 withDescriptor: descriptor)
         })
@@ -536,6 +537,7 @@ class ConversationViewController: ConversationBaseViewController {
     func onAudioRecordingCancelled(sender: AnyObject) {
         print("onAudioRecordingCancelled\n")
         stopAudioRecording()
+        SVProgressHUD.dismiss()
     }
     
     func stopAudioRecording()
