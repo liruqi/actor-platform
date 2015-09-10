@@ -58,7 +58,6 @@
 		55FB2F171B9E440700C5EA03 /* ASQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F161B9E440700C5EA03 /* ASQueue.m */; };
 		55FB2F1A1B9E442700C5EA03 /* TGTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F191B9E442700C5EA03 /* TGTimer.m */; };
 		55FB2F1D1B9E445700C5EA03 /* TGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F1C1B9E445700C5EA03 /* TGAlertView.m */; };
-		55FB2F201B9E44C400C5EA03 /* TGOpusAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F1F1B9E44C400C5EA03 /* TGOpusAudioRecorder.m */; };
 		55FB2F2C1B9E457600C5EA03 /* diag_range.c in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F221B9E457600C5EA03 /* diag_range.c */; };
 		55FB2F2D1B9E457600C5EA03 /* opus_header.c in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F241B9E457600C5EA03 /* opus_header.c */; };
 		55FB2F2E1B9E457600C5EA03 /* opusenc.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FB2F271B9E457600C5EA03 /* opusenc.m */; };
@@ -227,8 +226,6 @@
 		55FB2F191B9E442700C5EA03 /* TGTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGTimer.m; sourceTree = "<group>"; };
 		55FB2F1B1B9E445700C5EA03 /* TGAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGAlertView.h; sourceTree = "<group>"; };
 		55FB2F1C1B9E445700C5EA03 /* TGAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGAlertView.m; sourceTree = "<group>"; };
-		55FB2F1E1B9E44C400C5EA03 /* TGOpusAudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGOpusAudioRecorder.h; sourceTree = "<group>"; };
-		55FB2F1F1B9E44C400C5EA03 /* TGOpusAudioRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGOpusAudioRecorder.m; sourceTree = "<group>"; };
 		55FB2F221B9E457600C5EA03 /* diag_range.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = diag_range.c; sourceTree = "<group>"; };
 		55FB2F231B9E457600C5EA03 /* diag_range.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = diag_range.h; sourceTree = "<group>"; };
 		55FB2F241B9E457600C5EA03 /* opus_header.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = opus_header.c; sourceTree = "<group>"; };
@@ -520,8 +517,6 @@
 				55FB2F211B9E457600C5EA03 /* opusenc */,
 				55FB2F151B9E440700C5EA03 /* ASQueue.h */,
 				55FB2F161B9E440700C5EA03 /* ASQueue.m */,
-				55FB2F1E1B9E44C400C5EA03 /* TGOpusAudioRecorder.h */,
-				55FB2F1F1B9E44C400C5EA03 /* TGOpusAudioRecorder.m */,
 				55FB2F1B1B9E445700C5EA03 /* TGAlertView.h */,
 				55FB2F1C1B9E445700C5EA03 /* TGAlertView.m */,
 				55FB2F121B9E42EC00C5EA03 /* TGAudioRecorder.h */,
@@ -1123,7 +1118,6 @@
 				360E8AC7B412C97E3AC5C65996D8B7B1 /* CommonCell.swift in Sources */,
 				4C338EACE8C572D24AF45F734DFEE1CB /* ComposeController.swift in Sources */,
 				0224F1E3828DAA4189723FDA24F29984 /* Config.swift in Sources */,
-				55FB2F201B9E44C400C5EA03 /* TGOpusAudioRecorder.m in Sources */,
 				6B9C1168FE9DE8E5DDE9D195708EB934 /* ContactActionCell.swift in Sources */,
 				1C57E8822889043C4B941EE3DDC18855 /* ContactCell.swift in Sources */,
 				55FB2F2C1B9E457600C5EA03 /* diag_range.c in Sources */,

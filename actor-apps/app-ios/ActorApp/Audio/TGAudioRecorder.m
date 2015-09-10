@@ -17,13 +17,11 @@
 
 #define TGUseModernAudio true
 
-#import "TGOpusAudioRecorder.h"
-
 @interface TGAudioRecorder () <AVAudioRecorderDelegate>
 {
-    TGTimer *_timer;
-    
-    TGOpusAudioRecorder *_modernRecorder;
+//    TGTimer *_timer;
+    NSURL *_outputFileURL;
+    AVAudioRecorder *_recorder;
 }
 
 @end
@@ -46,31 +44,6 @@
     return queue;
 }
 
-static NSMutableDictionary *recordTimers()
-{
-    static NSMutableDictionary *dict = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-    {
-        dict = [[NSMutableDictionary alloc] init];
-    });
-    
-    return dict;
-}
-
-static int currentTimerId = 0;
-
-static void playSoundCompleted(__unused SystemSoundID ssID, __unused void *clientData)
-{
-    [[TGAudioRecorder audioRecorderQueue] dispatchOnQueue:^
-    {
-        int timerId = currentTimerId;
-        TGTimer *timer = (TGTimer *)recordTimers()[@(timerId)];
-        if ([timer isScheduled])
-            [timer resetTimeout:0.05];
-    }];
-}
-
 - (void)start
 {
     NSLog(@"[TGAudioRecorder start]");
@@ -81,38 +54,26 @@ static void playSoundCompleted(__unused SystemSoundID ssID, __unused void *clien
         {
             if (granted)
             {
-                _modernRecorder = [[TGOpusAudioRecorder alloc] initWithFileEncryption:false];
-                NSTimeInterval prepareStart = CFAbsoluteTimeGetCurrent();
+                int64_t randomId = 0;
+                arc4random_buf(&randomId, 8);
+                NSArray *pathComponents = @[NSTemporaryDirectory(), [[NSString alloc] initWithFormat:@"%" PRIx64 ".m4a", randomId]];
+                _outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
+
+                // Setup audio session
+                AVAudioSession *session = [AVAudioSession sharedInstance];
+                [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+
+                NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
                 
-                [_timer invalidate];
+                [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
+                [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
+                [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
                 
-                static int nextTimerId = 0;
-                int timerId = nextTimerId++;
-                
-                __weak TGAudioRecorder *weakSelf = self;
-                NSTimeInterval timeout = MIN(1.0, MAX(0.1, 1.0 - (CFAbsoluteTimeGetCurrent() - prepareStart)));
-                _timer = [[TGTimer alloc] initWithTimeout:timeout repeat:false completion:^
-                {
-                    __strong TGAudioRecorder *strongSelf = weakSelf;
-                    [strongSelf _commitRecord];
-                } queue:[TGAudioRecorder audioRecorderQueue].nativeQueue];
-                recordTimers()[@(timerId)] = _timer;
-                [_timer start];
-                
-                currentTimerId = timerId;
-                
-                static SystemSoundID soundId;
-                static dispatch_once_t onceToken;
-                dispatch_once(&onceToken, ^
-                {
-                    NSString *path = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"begin_record.caf"];
-                    NSURL *filePath = [NSURL fileURLWithPath:path isDirectory:false];
-                    AudioServicesCreateSystemSoundID((__bridge CFURLRef)filePath, &soundId);
-                    if (soundId != 0)
-                        AudioServicesAddSystemSoundCompletion(soundId, NULL, kCFRunLoopCommonModes, &playSoundCompleted, NULL);
-                });
-                
-                AudioServicesPlaySystemSound(soundId);
+                _recorder = [[AVAudioRecorder alloc] initWithURL:_outputFileURL settings:recordSetting error:nil];
+                _recorder.delegate = self;
+                _recorder.meteringEnabled = YES;
+                [_recorder prepareToRecord];
+                [_recorder record];
             }
             else
             {
@@ -137,12 +98,12 @@ static void playSoundCompleted(__unused SystemSoundID ssID, __unused void *clien
 
 - (NSTimeInterval)currentDuration
 {
-    return [_modernRecorder currentDuration];
+    return [_recorder currentTime];
 }
 
 - (void)_commitRecord
 {
-    [_modernRecorder record];
+    [_recorder record];
     
     dispatch_async(dispatch_get_main_queue(), ^
     {
@@ -154,18 +115,13 @@ static void playSoundCompleted(__unused SystemSoundID ssID, __unused void *clien
 
 - (void)cleanup
 {
-    TGOpusAudioRecorder *modernRecorder = _modernRecorder;
-    _modernRecorder = nil;
-    
-    TGTimer *timer = _timer;
-    _timer = nil;
+    AVAudioRecorder *modernRecorder = _recorder;
+    _recorder = nil;
     
     [[TGAudioRecorder audioRecorderQueue] dispatchOnQueue:^
     {
-        [timer invalidate];
-        
         if (modernRecorder != nil)
-            [modernRecorder stop:NULL];
+            [modernRecorder stop];
     }];
 }
 
@@ -184,10 +140,14 @@ static void playSoundCompleted(__unused SystemSoundID ssID, __unused void *clien
         NSString *resultPath = nil;
         NSTimeInterval resultDuration = 0.0;
         
-        if (_modernRecorder != nil)
+        if (_recorder != nil)
         {
-            NSTimeInterval recordedDuration = 0.0;
-            NSString *path = [_modernRecorder stop:&recordedDuration];
+            NSTimeInterval recordedDuration = [_recorder currentTime];
+            NSString* path = _outputFileURL.path;
+            [_recorder stop];
+            AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+            [audioSession setActive:NO error:nil];
+
             if (path != nil && recordedDuration > 0.5)
             {
                 resultPath = path;
@@ -199,6 +159,5 @@ static void playSoundCompleted(__unused SystemSoundID ssID, __unused void *clien
             completion(resultPath, resultDuration);
     }];
 }
-
 
 @end

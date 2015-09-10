@@ -143,9 +143,9 @@ class AABubbleDocumentCell: AABubbleBaseFileCell {
                     }
                     
 //                    if (content.getMimeType() == "audio/ogg")
-                    if (content.getName().hasSuffix(".ogg")) {
+                    if (content.getName().hasSuffix(".m4a")) {
                         let audioPlayer = TGModernConversationAudioPlayer(filePath:CocoaFiles.pathFromDescriptor(reference))
-                        audioPlayer.play(0)
+                        audioPlayer.play()
                         return
                     }
             }))
@@ -163,7 +163,7 @@ class AABubbleDocumentCell: AABubbleBaseFileCell {
                         return
                     }
                     
-                    if (content.getName().hasSuffix(".ogg")) {
+                    if (content.getName().hasSuffix(".m4a")) {
                         let audioPlayer = TGModernConversationAudioPlayer(filePath:CocoaFiles.pathFromDescriptor(fileSource.getFileDescriptor()))
                         audioPlayer.play(0)
                         return

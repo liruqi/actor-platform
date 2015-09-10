@@ -528,8 +528,8 @@ class ConversationViewController: ConversationBaseViewController {
             NSLog("Audio Recording file: \(descriptor)")
             
             Actor.sendDocumentWithPeer(self.peer,
-                withName: NSString.localizedStringWithFormat("%.0fs.ogg", duration + 0.5) as String,
-                withMime: "audio/ogg",
+                withName: NSString.localizedStringWithFormat("%.0fs.m4a", duration + 0.5) as String,
+                withMime: "audio/mp4",
                 withDescriptor: descriptor)
         })
     }
