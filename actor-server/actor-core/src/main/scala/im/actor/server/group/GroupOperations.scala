@@ -30,13 +30,13 @@ private[group] sealed trait Commands {
   ): Future[CreateAck] =
     (peerManagerRegion.ref ? Create(groupId, typ, clientUserId, clientAuthId, title, randomId, userIds.toSeq)).mapTo[CreateAck]
 
-  def createInternal(groupId: Int, typ: GroupType.ValueType, creatorUserId: Int, title: String, userIds: Set[Int], isHidden: Boolean)(
+  def createInternal(groupId: Int, typ: GroupType.ValueType, creatorUserId: Int, title: String, userIds: Set[Int], isHidden: Boolean, isHistoryShared: Boolean)(
     implicit
     region:  GroupProcessorRegion,
     timeout: Timeout,
     ec:      ExecutionContext
   ): Future[CreateInternalAck] =
-    (region.ref ? CreateInternal(groupId, typ, creatorUserId, title, userIds.toSeq, isHidden = Some(isHidden))).mapTo[CreateInternalAck]
+    (region.ref ? CreateInternal(groupId, typ, creatorUserId, title, userIds.toSeq, isHidden = Some(isHidden), isHistoryShared = Some(isHistoryShared))).mapTo[CreateInternalAck]
 
   def makePublic(groupId: Int, description: String)(
     implicit
@@ -162,6 +162,13 @@ private[group] sealed trait Queries {
     timeout: Timeout,
     ec:      ExecutionContext
   ): Future[Boolean] = (region.ref ? IsPublic(groupId)).mapTo[IsPublicResponse] map (_.isPublic)
+
+  def isHistoryShared(groupId: Int)(
+    implicit
+    region:  GroupViewRegion,
+    timeout: Timeout,
+    ec:      ExecutionContext
+  ): Future[Boolean] = (region.ref ? IsHistoryShared(groupId)).mapTo[IsHistorySharedResponse] map (_.isHistoryShared)
 
   def checkAccessHash(groupId: Int, hash: Long)(
     implicit
