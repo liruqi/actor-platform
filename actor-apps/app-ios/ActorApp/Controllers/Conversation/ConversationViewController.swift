@@ -55,7 +55,7 @@ class ConversationViewController: ConversationBaseViewController {
         
         self.textView.keyboardAppearance = MainAppTheme.common.isDarkKeyboard ? UIKeyboardAppearance.Dark : UIKeyboardAppearance.Light
         
-        self.audioButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        self.audioButton = UIButton(type: UIButtonType.Custom)
         self.audioButton.frame=CGRectMake(0, 0, textView.frame.width, textView.frame.height)
         self.audioButton.backgroundColor = UIColor.whiteColor()
         self.audioButton.setTitle("按住 说话", forState:UIControlState.Normal) //普通状态下的文字
@@ -335,7 +335,7 @@ class ConversationViewController: ConversationBaseViewController {
     override func textDidUpdate(animated: Bool) {
         super.textDidUpdate(animated);
         
-        var text = self.textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let text = self.textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         
         if (text.isEmpty) {
             self.rightButton.setImage(UIImage(named: "MicButton")!
@@ -353,7 +353,7 @@ class ConversationViewController: ConversationBaseViewController {
     }
     
     override func didPressRightButton(sender: AnyObject!) {
-        var text = self.textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let text = self.textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         
         if(text.isEmpty) {
             if(self.audioButton.hidden){
@@ -534,7 +534,7 @@ class ConversationViewController: ConversationBaseViewController {
                 return
             }
             NSLog("onAudioRecordingFinished: %@ [%lfs]", path, duration)
-            var range = path.rangeOfString("/tmp", options: NSStringCompareOptions.allZeros, range: nil, locale: nil)
+            var range = path.rangeOfString("/tmp", options: NSStringCompareOptions(rawValue: 0), range: nil, locale: nil)
             var descriptor = path.substringFromIndex(range!.startIndex)
             NSLog("Audio Recording file: \(descriptor)")
             

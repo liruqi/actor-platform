@@ -14,6 +14,7 @@ target 'ActorApp' do
     pod 'pop'
     pod 'VBFPopFlatButton'
     pod 'MBProgressHUD'
+    pod 'SVProgressHUD'
     pod 'PSTAlertController'
     pod 'DZNPhotoPickerController'
     pod 'RMPhoneFormat', :git => 'https://github.com/actorapp/RMPhoneFormat'
