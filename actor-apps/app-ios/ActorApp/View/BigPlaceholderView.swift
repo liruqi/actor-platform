@@ -59,7 +59,7 @@ class BigPlaceholderView: UIView {
         subtitleLabel.numberOfLines = 0
         contentView.addSubview(subtitleLabel)
         
-        actionButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        actionButton = UIButton(type: .System)
         actionButton.titleLabel!.font = UIFont(name: "HelveticaNeue-Medium", size: 21.0)
         contentView.addSubview(actionButton)
         
@@ -70,7 +70,7 @@ class BigPlaceholderView: UIView {
         subtitle2Label.numberOfLines = 0
         contentView.addSubview(subtitle2Label)
         
-        action2Button = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        action2Button = UIButton(type: .System)
         action2Button.titleLabel!.font = UIFont(name: "HelveticaNeue-Medium", size: 21.0)
         contentView.addSubview(action2Button)
     }
@@ -104,11 +104,11 @@ class BigPlaceholderView: UIView {
         
         if subtitle != nil {
             
-            var paragraphStyle = NSMutableParagraphStyle()
+            let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineHeightMultiple = 1.11
             paragraphStyle.alignment = NSTextAlignment.Center
             
-            var attrString = NSMutableAttributedString(string: subtitle!)
+            let attrString = NSMutableAttributedString(string: subtitle!)
             attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
 
             subtitleLabel.attributedText = attrString
@@ -128,11 +128,11 @@ class BigPlaceholderView: UIView {
         }
         
         if (subtitle2 != nil) {
-            var paragraphStyle = NSMutableParagraphStyle()
+            let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineHeightMultiple = 1.11
             paragraphStyle.alignment = NSTextAlignment.Center
             
-            var attrString = NSMutableAttributedString(string: subtitle2!)
+            let attrString = NSMutableAttributedString(string: subtitle2!)
             attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
             
             subtitle2Label.attributedText = attrString
@@ -161,8 +161,7 @@ class BigPlaceholderView: UIView {
         super.layoutSubviews()
         
         var contentHeight: CGFloat = 0
-        var maxContentWidth = bounds.size.width - 40
-        var originY = 0
+        let maxContentWidth = bounds.size.width - 40
         
         if imageView.hidden == false {
             imageView.frame = CGRect(x: 20 + (maxContentWidth - imageView.image!.size.width) / 2.0, y: topOffset, width: imageView.image!.size.width, height: imageView.image!.size.height)

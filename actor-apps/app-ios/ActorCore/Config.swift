@@ -10,17 +10,20 @@ class Config {
     var mixpanel: String? = nil
     var hockeyapp: String? = nil
     var mint: String? = nil
-    var enableCommunity: Bool = false
     var pushId: Int? = nil
     
     init() {
         let path = NSBundle.mainBundle().pathForResource("app", ofType: "json")
-        var text = String(contentsOfFile: path!, encoding: NSUTF8StringEncoding, error: nil)!
+        let text: String
+        let parsedObject: AnyObject?
+        do {
+            text = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding)
+            parsedObject = try NSJSONSerialization.JSONObjectWithData(text.asNS.dataUsingEncoding(NSUTF8StringEncoding)!,
+                options: NSJSONReadingOptions.AllowFragments)
+        } catch _ {
+            fatalError("Unable to load config")
+        }
 
-        var parseError: NSError?
-        let parsedObject: AnyObject? = NSJSONSerialization.JSONObjectWithData((text as NSString).dataUsingEncoding(NSUTF8StringEncoding)!,
-            options: NSJSONReadingOptions.AllowFragments,
-            error:&parseError)
         if let configData = parsedObject as? NSDictionary {
             if let endpoints = configData["endpoints"] as? NSArray {
                 for endpoint in endpoints {
@@ -35,9 +38,6 @@ class Config {
             }
             if let mint = configData["mint"] as? String {
                 self.mint = mint
-            }
-            if let enableCommunity = configData["community"] as? Bool {
-                self.enableCommunity = enableCommunity
             }
             if let pushId = configData["push_id"] as? Int {
                 self.pushId = pushId

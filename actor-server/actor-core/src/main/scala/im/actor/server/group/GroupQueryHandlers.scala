@@ -1,7 +1,7 @@
 package im.actor.server.group
 
 import im.actor.server.ApiConversions._
-import im.actor.api.rpc.groups.{ Group ⇒ ApiGroup, Member ⇒ ApiMember }
+import im.actor.api.rpc.groups.{ ApiGroup, ApiMember }
 
 private[group] trait GroupQueryHandlers extends GroupCommandHelpers {
   this: GroupProcessor ⇒
@@ -65,4 +65,6 @@ private[group] trait GroupQueryHandlers extends GroupCommandHelpers {
   def getAccessHash(group: Group): Unit =
     sender() ! GetAccessHashResponse(group.accessHash)
 
+  def isHistoryShared(group: Group): Unit =
+    sender() ! IsHistorySharedResponse(group.isHistoryShared)
 }

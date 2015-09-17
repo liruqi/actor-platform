@@ -42,9 +42,9 @@ class SettingsNotificationsViewController: AATableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0) {
             return 1
-        } else if (section == 2) {
-            return Actor.isNotificationsEnabled() ? 2 : 1
         } else if (section == 1) {
+            return Actor.isNotificationsEnabled() ? 2 : 1
+        } else if (section == 2) {
             return Actor.isGroupNotificationsEnabled() ? 2 : 1
         } else if (section == 3) {
             return 1
@@ -56,9 +56,9 @@ class SettingsNotificationsViewController: AATableViewController {
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if (section == 0) {
             return NSLocalizedString("NotificationsEffectsTitle", comment: "Effects")
-        } else if (section == 2) {
-            return NSLocalizedString("NotificationsMobileTitle", comment: "Mobile Notifications")
         } else if (section == 1) {
+            return NSLocalizedString("NotificationsMobileTitle", comment: "Mobile Notifications")
+        } else if (section == 2) {
             return NSLocalizedString("NotificationsGroups", comment: "Group Notifications")
         } else if (section == 3) {
             return NSLocalizedString("NotificationsPrivacyTitle", comment: "Privacy")
@@ -68,9 +68,9 @@ class SettingsNotificationsViewController: AATableViewController {
     }
     
     func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if (section == 2) {
+        if (section == 1) {
             return NSLocalizedString("NotificationsNotificationHint", comment: "Disable hint")
-        } else if (section == 1) {
+        } else if (section == 2) {
             return NSLocalizedString("NotificationsOnlyMentionsHint", comment: "Only Mentions hint")
         } else if (section == 3) {
             return NSLocalizedString("NotificationsPreviewHint", comment: "Preview hint")
@@ -80,7 +80,7 @@ class SettingsNotificationsViewController: AATableViewController {
     }
     
     private func notificationsTonesCell(indexPath: NSIndexPath) -> CommonCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
         
         cell.setContent(NSLocalizedString("NotificationsSoundEffects", comment: "Sound Effects"))
         cell.style = .Switch
@@ -97,7 +97,7 @@ class SettingsNotificationsViewController: AATableViewController {
     }
     
     private func notificationsEnableCell(indexPath: NSIndexPath) -> CommonCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
         
         cell.setContent(NSLocalizedString("NotificationsEnable", comment: "Enable"))
         cell.style = .Switch
@@ -109,7 +109,7 @@ class SettingsNotificationsViewController: AATableViewController {
         cell.switchBlock = { (nValue: Bool) in
             self.tableView.beginUpdates()
             Actor.changeNotificationsEnabledWithValue(nValue)
-            var rows = [NSIndexPath(forRow: 1, inSection: 2)]
+            let rows = [NSIndexPath(forRow: 1, inSection: indexPath.section)]
             if (nValue) {
                 self.tableView.insertRowsAtIndexPaths(rows, withRowAnimation: UITableViewRowAnimation.Middle)
             } else {
@@ -122,7 +122,7 @@ class SettingsNotificationsViewController: AATableViewController {
     }
     
     private func notificationsAlertCell(indexPath: NSIndexPath) -> CommonCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
         
         cell.setContent(NSLocalizedString("NotificationsSound", comment: "Sound"))
         cell.style = .Switch
@@ -141,7 +141,7 @@ class SettingsNotificationsViewController: AATableViewController {
     
     
     private func groupEnabledCell(indexPath: NSIndexPath) -> CommonCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
         
         cell.setContent(NSLocalizedString("NotificationsEnable", comment: "Enable"))
         cell.style = .Switch
@@ -153,7 +153,7 @@ class SettingsNotificationsViewController: AATableViewController {
         cell.switchBlock = { (nValue: Bool) in
             self.tableView.beginUpdates()
             Actor.changeGroupNotificationsEnabled(nValue)
-            var rows = [NSIndexPath(forRow: 1, inSection: 1)]
+            let rows = [NSIndexPath(forRow: 1, inSection: indexPath.section)]
             if (nValue) {
                 self.tableView.insertRowsAtIndexPaths(rows, withRowAnimation: UITableViewRowAnimation.Middle)
             } else {
@@ -166,7 +166,7 @@ class SettingsNotificationsViewController: AATableViewController {
     }
     
     private func groupEnabledMentionsCell(indexPath: NSIndexPath) -> CommonCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
         
         cell.setContent(NSLocalizedString("NotificationsOnlyMentions", comment: "Mentions"))
         cell.style = .Switch
@@ -184,7 +184,7 @@ class SettingsNotificationsViewController: AATableViewController {
     }
 
     private func inAppAlertCell(indexPath: NSIndexPath) -> CommonCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
         
         cell.setContent(NSLocalizedString("NotificationsEnable", comment: "Enable"))
         cell.style = .Switch
@@ -196,7 +196,7 @@ class SettingsNotificationsViewController: AATableViewController {
         cell.switchBlock = { (nValue: Bool) in
             self.tableView.beginUpdates()
             Actor.changeInAppNotificationsEnabledWithValue(nValue)
-            var rows = [NSIndexPath(forRow: 1, inSection: 3), NSIndexPath(forRow: 2, inSection: 3)]
+            let rows = [NSIndexPath(forRow: 1, inSection: 3), NSIndexPath(forRow: 2, inSection: 3)]
             if (nValue) {
                 self.tableView.insertRowsAtIndexPaths(rows, withRowAnimation: UITableViewRowAnimation.Middle)
             } else {
@@ -209,7 +209,7 @@ class SettingsNotificationsViewController: AATableViewController {
     }
     
     private func inAppSoundCell(indexPath: NSIndexPath) -> CommonCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
         
         cell.setContent(NSLocalizedString("NotificationsSound", comment: "Sound"))
         cell.style = .Switch
@@ -229,7 +229,7 @@ class SettingsNotificationsViewController: AATableViewController {
 
     
     private func inAppVibrateCell(indexPath: NSIndexPath) -> CommonCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
         
         cell.setContent(NSLocalizedString("NotificationsVibration", comment: "Vibration"))
         cell.style = .Switch
@@ -248,7 +248,7 @@ class SettingsNotificationsViewController: AATableViewController {
     }
 
     private func notificationsPreviewCell(indexPath: NSIndexPath) -> CommonCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
         
         cell.setContent(NSLocalizedString("NotificationsPreview", comment: "Message Preview"))
         cell.style = .Switch
@@ -267,13 +267,13 @@ class SettingsNotificationsViewController: AATableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             return notificationsTonesCell(indexPath)
-        } else if (indexPath.section == 2) {
+        } else if (indexPath.section == 1) {
             if (indexPath.row == 0) {
                 return notificationsEnableCell(indexPath)
             } else if (indexPath.row == 1) {
                 return notificationsAlertCell(indexPath)
             }
-        } else if (indexPath.section == 1) {
+        } else if (indexPath.section == 2) {
             if (indexPath.row == 0) {
                 return groupEnabledCell(indexPath)
             } else {
@@ -288,12 +288,12 @@ class SettingsNotificationsViewController: AATableViewController {
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-        header.textLabel.textColor = MainAppTheme.list.sectionColor
+        header.textLabel!.textColor = MainAppTheme.list.sectionColor
     }
     
     func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-        header.textLabel.textColor = MainAppTheme.list.hintColor
+        header.textLabel!.textColor = MainAppTheme.list.hintColor
     }
     
 

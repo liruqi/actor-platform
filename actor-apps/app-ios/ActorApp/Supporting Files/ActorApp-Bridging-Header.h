@@ -22,10 +22,7 @@
 #import <NYTPhotoViewer/NYTPhotosViewController.h>
 #import <NYTPhotoViewer/NYTPhoto.h>
 
-#import <AsyncDisplayKit/AsyncDisplayKit.h>
-#import <AsyncDisplayKit/ASDisplayNode+Subclasses.h>
 #import <pop/Pop.h>
-#import <TWMessageBarManager/TWMessageBarManager.h>
 #import <VBFPopFlatButton/VBFPopFlatButton.h>
 
 #import <PSTAlertController/PSTAlertController.h>
@@ -34,12 +31,12 @@
 #import <UIAlertView+Blocks/UIAlertView+Blocks.h>
 #import <UIActionSheet+Blocks/UIActionSheet+Blocks.h>
 #import <UIAlertController+Blocks/UIAlertController+Blocks.h>
-#import <MDRadialProgress/MDRadialProgressView.h>
 
-#import <SplunkMint-iOS/SplunkMint-iOS.h>
+// WARRING: Disabled because Mint doesn't support bitcode
+// #import <SplunkMint/SplunkMint.h>
 #import <HockeySDK/HockeySDK.h>
 #import <AddressBook/AddressBook.h>
-#import <Mixpanel/Mixpanel.h>
+// #import <Mixpanel/Mixpanel.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 
 // ObjC classes

@@ -1,6 +1,7 @@
 package im.actor.core.modules;
 
 import im.actor.core.Configuration;
+import im.actor.core.Extension;
 import im.actor.core.Messenger;
 import im.actor.core.i18n.I18nEngine;
 import im.actor.core.modules.internal.AnalyticsModule;
@@ -20,14 +21,12 @@ import im.actor.core.modules.internal.SearchModule;
 import im.actor.core.modules.internal.SecurityModule;
 import im.actor.core.modules.internal.SettingsModule;
 import im.actor.core.modules.internal.TypingModule;
-import im.actor.core.modules.internal.users.UsersModule;
+import im.actor.core.modules.internal.UsersModule;
 import im.actor.core.network.ActorApi;
+import im.actor.runtime.eventbus.EventBus;
 import im.actor.runtime.storage.PreferencesStorage;
 
 public interface ModuleContext {
-
-    // Loading external module
-    Module getModule(String name);
 
     // Messenger Configuration
     Configuration getConfiguration();
@@ -35,11 +34,16 @@ public interface ModuleContext {
     // API Access
     ActorApi getActorApi();
 
+    ApiModule getApiModule();
+
     // Preferences
     PreferencesStorage getPreferences();
 
     // Built-In modules
     Authentication getAuthModule();
+
+    // Event Bus
+    EventBus getEvents();
 
     UsersModule getUsersModule();
 
@@ -82,4 +86,6 @@ public interface ModuleContext {
     Messenger getMessenger();
 
     MentionsModule getMentions();
+
+    Extension findExtension(String key);
 }

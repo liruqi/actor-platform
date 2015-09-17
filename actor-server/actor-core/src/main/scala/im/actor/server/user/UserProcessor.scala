@@ -1,5 +1,7 @@
 package im.actor.server.user
 
+import im.actor.serialization.ActorSerializer
+
 import scala.concurrent.duration._
 import scala.concurrent.{ ExecutionContext, Future }
 
@@ -11,8 +13,7 @@ import com.github.benmanes.caffeine.cache.Cache
 import org.joda.time.DateTime
 import slick.driver.PostgresDriver.api._
 
-import im.actor.api.rpc.users.Sex
-import im.actor.server.commons.serialization.ActorSerializer
+import im.actor.api.rpc.users.ApiSex
 import im.actor.server.db.DbExtension
 import im.actor.server.event.TSEvent
 import im.actor.server.file.Avatar
@@ -20,7 +21,7 @@ import im.actor.server.office.{ ProcessorState, PeerProcessor, StopOffice }
 import im.actor.server.sequence.SeqUpdatesExtension
 import im.actor.server.sequence.SeqStateDate
 import im.actor.server.social.{ SocialExtension, SocialManagerRegion }
-import im.actor.utils.cache.CacheHelpers._
+import im.actor.util.cache.CacheHelpers._
 
 trait UserEvent
 
@@ -37,7 +38,7 @@ private[user] case class User(
   accessSalt:  String,
   name:        String,
   countryCode: String,
-  sex:         Sex.Sex,
+  sex:         ApiSex.ApiSex,
   phones:      Seq[Long],
   emails:      Seq[String],
   authIds:     Set[Long],

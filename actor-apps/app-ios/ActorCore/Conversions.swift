@@ -38,6 +38,22 @@ extension NSData {
     }
 }
 
+extension ACMessage {
+    var isOut: Bool {
+        get {
+            return Actor.myUid() == self.senderId
+        }
+    }
+}
+
+extension ACPeer {
+    var isGroup: Bool {
+        get {
+            return UInt(self.getPeerType().ordinal()) == ACPeerType.GROUP.rawValue
+        }
+    }
+}
+
 extension NSMutableData {
     func appendUInt32(value: UInt32) {
       var raw = value.bigEndian
@@ -94,11 +110,48 @@ extension NSData {
         var bytesArray = self.bytes();
         
         for (var i = 0; i < bytesArray.count; i++) {
-            var b = bytesArray[i]
             s = s + UInt32(bytesArray[i])
         }
         s = s % 65536;
         return UInt16(s);
+    }
+}
+
+extension JavaUtilArrayList {
+    
+    func toSwiftArray<T>() -> [T] {
+        var res = [T]()
+        for i in 0..<self.size() {
+            res.append(self.getWithInt(i) as! T)
+        }
+        return res
+    }
+    
+    func toSwiftArray() -> [AnyObject] {
+        var res = [AnyObject]()
+        for i in 0..<self.size() {
+            res.append(self.getWithInt(i))
+        }
+        return res
+    }
+}
+
+extension IOSObjectArray {
+    
+    func toSwiftArray<T>() -> [T] {
+        var res = [T]()
+        for i in 0..<self.length() {
+            res.append(self.objectAtIndex(UInt(i)) as! T)
+        }
+        return res
+    }
+    
+    func toSwiftArray() -> [AnyObject] {
+        var res = [AnyObject]()
+        for i in 0..<self.length() {
+            res.append(self.objectAtIndex(UInt(i)))
+        }
+        return res
     }
 }
 
@@ -177,7 +230,7 @@ class CRC32 {
         
         // reverse bytes
         let bytes = NSMutableData(bytes: &crc, length: 4).bytes().reverse()
-        var data = NSData(bytes: bytes, length: bytes.count)
+        var data = NSData(bytes: bytes as! [UInt8], length: bytes.count)
         return data
     }   
 }

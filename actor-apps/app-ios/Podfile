@@ -5,42 +5,34 @@ xcodeproj 'ActorApp.xcodeproj'
 target 'ActorApp' do
 	xcodeproj 'ActorApp.xcodeproj'
 
-	# Model
+    # Core
     pod 'FMDB', :git => 'https://github.com/ccgus/fmdb'
     pod 'RegexKitLite', :inhibit_warnings => true
     pod 'CocoaAsyncSocket'
-        
-	# UI
-    pod 'AsyncDisplayKit'
+
+    # UI
     pod 'pop'
     pod 'VBFPopFlatButton'
-	pod 'SVProgressHUD'
-	pod 'MBProgressHUD'
-	pod 'PSTAlertController'
-	pod 'PHFComposeBarView'
-	pod 'DZNPhotoPickerController'
-	pod 'HockeySDK'
-	pod 'RMPhoneFormat', :git => 'https://github.com/actorapp/RMPhoneFormat'
+    pod 'MBProgressHUD'
+    pod 'PSTAlertController'
+    pod 'DZNPhotoPickerController'
+    pod 'RMPhoneFormat', :git => 'https://github.com/actorapp/RMPhoneFormat'
     pod 'JVFloatLabeledTextField'
     pod 'CLTokenInputView'
-    
+
     pod 'SlackTextViewController', :git => 'https://github.com/actorapp/SlackTextViewController'
-    
+
     pod 'NYTPhotoViewer'
     pod 'PEPhotoCropEditor'
-    pod 'TWMessageBarManager'
+    # pod 'TWMessageBarManager'
     pod 'LTNavigationBar'
     pod 'BlockAlertsAnd-ActionSheets'
     pod 'RMUniversalAlert'
     pod 'PSTAlertController'
     pod 'TTTAttributedLabel'
     pod 'M13ProgressSuite'
-    pod 'MDRadialProgress'
-    
-    # Tracking
-    pod 'SplunkMint-iOS'
-    pod 'Mixpanel'
+    # pod 'MDRadialProgress'
 
-    # Audio
-    pod 'libopus'
+    # Tracking
+    pod 'HockeySDK', '~> 3.8-RC'
 end

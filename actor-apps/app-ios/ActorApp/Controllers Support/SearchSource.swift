@@ -36,8 +36,8 @@ class SearchSource: NSObject, UISearchBarDelegate, UISearchDisplayDelegate, UITa
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var item: AnyObject? = objectAtIndexPath(indexPath)
-        var cell = buildCell(tableView, cellForRowAtIndexPath:indexPath, item:item);
+        let item: AnyObject? = objectAtIndexPath(indexPath)
+        let cell = buildCell(tableView, cellForRowAtIndexPath:indexPath, item:item);
         bindCell(tableView, cellForRowAtIndexPath: indexPath, item: item, cell: cell);
         return cell;
     }
@@ -59,8 +59,8 @@ class SearchSource: NSObject, UISearchBarDelegate, UISearchDisplayDelegate, UITa
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        var normalized = searchText.trim().lowercaseString
-        if (normalized.size > 0) {
+        let normalized = searchText.trim().lowercaseString
+        if (normalized.length > 0) {
             displayList.initSearchWithQuery(normalized, withRefresh: false)
         } else {
             displayList.initEmpty()

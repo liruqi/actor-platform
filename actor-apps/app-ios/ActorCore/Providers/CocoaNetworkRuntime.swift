@@ -39,10 +39,14 @@ class CocoaTcpConnection: ARAsyncConnection, GCDAsyncSocketDelegate {
     }
     
     override func doConnect() {
-        //        NSLog("\(TAG) connecting...")
+        let endpoint = getEndpoint()
+        
         gcdSocket = GCDAsyncSocket(delegate: self, delegateQueue: CocoaTcpConnection.queue)
-        var endpoint = getEndpoint()
-        gcdSocket!.connectToHost(endpoint.getHost()!, onPort: UInt16(endpoint.getPort()), withTimeout: Double(ARManagedConnection_CONNECTION_TIMEOUT) / 1000.0, error: nil)
+        do {
+            try self.gcdSocket!.connectToHost(endpoint.getHost()!, onPort: UInt16(endpoint.getPort()), withTimeout: Double(ARManagedConnection_CONNECTION_TIMEOUT) / 1000.0)
+        } catch _ {
+            
+        }
     }
     
     // Affer successful connection
@@ -76,15 +80,15 @@ class CocoaTcpConnection: ARAsyncConnection, GCDAsyncSocketDelegate {
         if (tag == READ_HEADER) {
             //            NSLog("\(TAG) Header received")
             self.header = data
-            var packageId = data.readUInt32(0)
-            var size = data.readUInt32(5)
+            data.readUInt32(0) // IGNORE: package id
+            let size = data.readUInt32(5)
             gcdSocket?.readDataToLength(UInt(size + 4), withTimeout: -1, tag: READ_BODY)
         } else if (tag == READ_BODY) {
             //            NSLog("\(TAG) Body received")
-            var package = NSMutableData()
+            let package = NSMutableData()
             package.appendData(self.header!)
             package.appendData(data)
-            var packageId = package.readUInt32(0)
+            package.readUInt32(0) // IGNORE: package id
             self.header = nil
             onReceived(package.toJavaBytes())
             

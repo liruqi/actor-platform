@@ -25,12 +25,12 @@ if (project.hasProperty('buildIndex')) {
 
 android {
 
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.1'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode Integer.valueOf(customVersionCode)
         versionName project.version
         applicationId "im.actor"
@@ -45,21 +45,26 @@ android {
         // Java types for BuildConfig
         def STRING = "String"
         def VERSION_TITLE = "VERSION_TITLE"
+        def BOOLEAN = "boolean"
+        def ENABLE_KEEP_ALIVE = "ENABLE_KEEP_ALIVE"
 
         release {
             buildConfigField STRING, VERSION_TITLE, "\"" + project.version + " (Release)\""
+            buildConfigField BOOLEAN, ENABLE_KEEP_ALIVE, "false"
             signingConfig signingConfigs.release
             applicationIdSuffix ".cloud"
         }
 
         free {
             buildConfigField STRING, VERSION_TITLE, "\"" + project.version + " (Free)\""
+            buildConfigField BOOLEAN, ENABLE_KEEP_ALIVE, "true"
             signingConfig signingConfigs.release
             applicationIdSuffix ".free"
         }
 
         debug {
             buildConfigField STRING, VERSION_TITLE, "\"Debug Version (${getDate()})\""
+            buildConfigField BOOLEAN, ENABLE_KEEP_ALIVE, "false"
             applicationIdSuffix ".debug"
         }
     }
@@ -67,11 +72,22 @@ android {
     // Setting themes
     sourceSets {
 
+
         main {
             res.srcDirs = ['src/main/res', 'src/themes/main', 'src/material-icons']
         }
 
+        release {
+            java.srcDirs += 'src/push/google/java'
+        }
+
+        free {
+            java.srcDirs += 'src/push/empty/java'
+        }
+
+
         debug {
+            java.srcDirs += 'src/push/google/java'
             res.srcDirs = ['src/themes/dev']
         }
     }
@@ -122,20 +138,6 @@ android {
         abortOnError false
     }
 }
-//
-//apt {
-//    arguments {
-//        androidManifestFile variant.outputs[0].processResources.manifestFile
-//        // if you have multiple outputs (when using splits), you may want to have other index than 0
-//
-//        // you should set your package name here if you are using different application IDs
-//        // resourcePackageName "your.package.name"
-//
-//        // You can set optional annotation processing options here, like these commented options:
-//        // logLevel 'INFO'
-//        // logFile '/var/log/aa.log'
-//    }
-//}
 
 dependencies {
 
@@ -157,16 +159,18 @@ dependencies {
     compile files('libs/libphonenumber-5.9.jar')
 
     // Android Support
-    compile 'com.android.support:support-v4:22.2.1'
-    compile 'com.android.support:support-v13:22.1.1'
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:palette-v7:22.1.1'
-    compile 'com.android.support:recyclerview-v7:22.1.1'
+    compile 'com.android.support:support-v4:23.0.1'
+    compile 'com.android.support:support-v13:23.0.1'
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:palette-v7:23.0.1'
+    compile 'com.android.support:recyclerview-v7:23.0.1'
+
+    //GCM
+    releaseCompile 'com.google.android.gms:play-services-gcm:7.5.0'
+    debugCompile 'com.google.android.gms:play-services-gcm:7.5.0'
 
     // Integration
-    compile 'com.mixpanel.android:mixpanel-android:4.5.3'
     compile 'com.splunk.mint:mint:4.0.8'
-    compile files('libs/HockeySDK-3.5.0.jar')
 
 //    // Annotation processing
 //    apt "org.androidannotations:androidannotations:3.3.2"

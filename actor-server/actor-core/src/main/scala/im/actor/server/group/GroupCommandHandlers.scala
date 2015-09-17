@@ -7,9 +7,9 @@ import akka.pattern.pipe
 import com.google.protobuf.ByteString
 import im.actor.api.rpc.Update
 import im.actor.api.rpc.groups._
-import im.actor.api.rpc.messaging.ServiceMessage
-import im.actor.api.rpc.misc.Extension
-import im.actor.api.rpc.users.Sex
+import im.actor.api.rpc.messaging.ApiServiceMessage
+import im.actor.api.rpc.misc.ApiExtension
+import im.actor.api.rpc.users.ApiSex
 import im.actor.server.ApiConversions._
 import im.actor.server.acl.ACLUtils
 import im.actor.server.history.HistoryUtils
@@ -23,7 +23,7 @@ import im.actor.server.sequence.SeqUpdatesManager._
 import im.actor.server.sequence.{ SeqState, SeqStateDate }
 import im.actor.server.user.UserOffice
 import ACLUtils._
-import im.actor.server.util.IdUtils._
+import im.actor.util.misc.IdUtils._
 import ImageUtils._
 import org.joda.time.DateTime
 import slick.driver.PostgresDriver.api._
@@ -37,11 +37,11 @@ private[group] trait GroupCommandHandlers extends GroupsImplicits with GroupComm
   import GroupCommands._
   import GroupEvents._
 
-  protected def createInternal(typ: GroupType, creatorUserId: Int, title: String, userIds: Seq[Int], isHidden: Option[Boolean], extensions: Seq[Extension] = Seq.empty): Unit = {
+  protected def createInternal(typ: GroupType, creatorUserId: Int, title: String, userIds: Seq[Int], isHidden: Option[Boolean], isHistoryShared: Option[Boolean], extensions: Seq[ApiExtension] = Seq.empty): Unit = {
     val accessHash = genAccessHash()
 
     val date = now()
-    val created = GroupEvents.Created(groupId, Some(typ), creatorUserId, accessHash, title, (userIds.toSet + creatorUserId).toSeq, isHidden, extensions)
+    val created = GroupEvents.Created(groupId, Some(typ), creatorUserId, accessHash, title, (userIds.toSet + creatorUserId).toSeq, isHidden, isHistoryShared, extensions)
     val state = initState(date, created)
 
     persist(TSEvent(date, created)) { _ ⇒
@@ -75,7 +75,7 @@ private[group] trait GroupCommandHandlers extends GroupsImplicits with GroupComm
 
     val date = now()
 
-    val created = GroupEvents.Created(groupId, Some(typ), creatorUserId, accessHash, title, Seq(creatorUserId), isHidden = Some(false))
+    val created = GroupEvents.Created(groupId, Some(typ), creatorUserId, accessHash, title, Seq(creatorUserId), isHidden = Some(false), isHistoryShared = Some(false))
     val state = initState(date, created)
 
     persist(TSEvent(date, created)) { _ ⇒
@@ -126,7 +126,7 @@ private[group] trait GroupCommandHandlers extends GroupsImplicits with GroupComm
       context become working(updatedState(tsEvt, state))
 
       (for {
-        _ ← UserOffice.create(botUserId, nextAccessSalt(ThreadLocalRandom.current()), "Bot", "US", Sex.Unknown, isBot = true)
+        _ ← UserOffice.create(botUserId, nextAccessSalt(ThreadLocalRandom.current()), "Bot", "US", ApiSex.Unknown, isBot = true)
         _ ← db.run(p.GroupBot.create(groupId, botUserId, botToken))
         _ ← integrationTokensKv.upsert(botToken, groupId)
       } yield ()) onFailure {
@@ -403,7 +403,7 @@ private[group] trait GroupCommandHandlers extends GroupsImplicits with GroupComm
     }
   }
 
-  private def removeUser(userId: Int, memberIds: Set[Int], clientAuthId: Long, serviceMessage: ServiceMessage, update: Update, date: DateTime, randomId: Long): DBIO[SeqStateDate] = {
+  private def removeUser(userId: Int, memberIds: Set[Int], clientAuthId: Long, serviceMessage: ApiServiceMessage, update: Update, date: DateTime, randomId: Long): DBIO[SeqStateDate] = {
     val groupPeer = models.Peer.group(groupId)
     for {
       _ ← p.GroupUser.delete(groupId, userId)

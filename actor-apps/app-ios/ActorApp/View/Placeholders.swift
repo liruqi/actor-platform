@@ -7,10 +7,10 @@ import Foundation
 class Placeholders {
     
     class func avatarPlaceholder(index: jint, size: Int, title: NSString, rounded: Bool) -> UIImage {
-        var color = MainAppTheme.common.placeholders[Int(abs(index)) % MainAppTheme.common.placeholders.count].CGColor;
+        let color = MainAppTheme.common.placeholders[Int(abs(index)) % MainAppTheme.common.placeholders.count].CGColor;
         
         UIGraphicsBeginImageContextWithOptions(CGSize(width: size, height: size), false, UIScreen.mainScreen().scale);
-        var context = UIGraphicsGetCurrentContext();
+        let context = UIGraphicsGetCurrentContext();
         
         // Background
         
@@ -22,17 +22,17 @@ class Placeholders {
             CGContextAddRect(context, CGRect(x: 0, y: 0, width: size, height: size))
         }
         
-        CGContextDrawPath(context, kCGPathFill);
+        CGContextDrawPath(context, .Fill);
         
         // Text
         
         UIColor.whiteColor().set()
         
-        var font = UIFont.systemFontOfSize(CGFloat(size / 2));
+        let font = UIFont.systemFontOfSize(CGFloat(size / 2));
         var rect = CGRectMake(0, 0, CGFloat(size), CGFloat(size))
         rect.origin.y = round(CGFloat(size * 47 / 100) - font.pointSize / 2);
         
-        var style : NSMutableParagraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+        let style : NSMutableParagraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         style.alignment = NSTextAlignment.Center
         style.lineBreakMode = NSLineBreakMode.ByWordWrapping;
         
@@ -44,10 +44,10 @@ class Placeholders {
         if rounded {
             CGContextSetStrokeColorWithColor(context, UIColor(red: 0, green: 0, blue: 0, alpha: 0x10/255.0).CGColor);
             CGContextAddArc(context,CGFloat(size)/2, CGFloat(size)/2, CGFloat(size)/2, CGFloat(M_PI * 0), CGFloat(M_PI * 2), 0);
-            CGContextDrawPath(context, kCGPathStroke);
+            CGContextDrawPath(context, .Stroke);
         }
         
-        var image = UIGraphicsGetImageFromCurrentImageContext();
+        let image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         return image;
     }

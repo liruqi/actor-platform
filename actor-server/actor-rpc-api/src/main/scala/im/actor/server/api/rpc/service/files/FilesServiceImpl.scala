@@ -22,7 +22,6 @@ import im.actor.api.rpc.FileHelpers.Errors
 import im.actor.api.rpc.files._
 import im.actor.api.rpc.{ ClientData, _ }
 import im.actor.server.db.DbExtension
-import im.actor.server.util._
 import im.actor.server.{ models, persist }
 
 class FilesServiceImpl(
@@ -39,7 +38,7 @@ class FilesServiceImpl(
   private implicit val db: Database = DbExtension(actorSystem).db
   private val fsAdapter: S3StorageAdapter = S3StorageExtension(actorSystem).s3StorageAdapter
 
-  override def jhandleGetFileUrl(location: FileLocation, clientData: ClientData): Future[HandlerResult[ResponseGetFileUrl]] = {
+  override def jhandleGetFileUrl(location: ApiFileLocation, clientData: ClientData): Future[HandlerResult[ResponseGetFileUrl]] = {
     val authorizedAction = requireAuth(clientData) map { client ⇒
       persist.File.find(location.fileId) flatMap {
         implicit val timeout = 1.day
@@ -132,7 +131,7 @@ class FilesServiceImpl(
             _ ← DBIO.from(deleteDir(tempDir))
             _ ← DBIO.from(fileLengthF) flatMap (size ⇒ persist.File.setUploaded(file.id, size, fileName))
           } yield {
-            Ok(ResponseCommitFileUpload(FileLocation(file.id, ACLUtils.fileAccessHash(file.id, file.accessSalt))))
+            Ok(ResponseCommitFileUpload(ApiFileLocation(file.id, ACLUtils.fileAccessHash(file.id, file.accessSalt))))
           }
         case None ⇒
           DBIO.successful(Error(Errors.FileNotFound))

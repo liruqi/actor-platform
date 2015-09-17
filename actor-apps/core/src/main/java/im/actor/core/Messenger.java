@@ -23,7 +23,15 @@ import im.actor.core.entity.Sex;
 import im.actor.core.entity.User;
 import im.actor.core.entity.content.FastThumb;
 import im.actor.core.i18n.I18nEngine;
+import im.actor.core.modules.ModuleContext;
 import im.actor.core.modules.Modules;
+import im.actor.core.modules.events.AppVisibleChanged;
+import im.actor.core.modules.events.DialogsClosed;
+import im.actor.core.modules.events.DialogsOpened;
+import im.actor.core.modules.events.PeerChatClosed;
+import im.actor.core.modules.events.PeerChatOpened;
+import im.actor.core.modules.events.PeerInfoClosed;
+import im.actor.core.modules.events.PeerInfoOpened;
 import im.actor.core.network.NetworkState;
 import im.actor.core.network.parser.Request;
 import im.actor.core.network.parser.Response;
@@ -358,7 +366,7 @@ public class Messenger {
      */
     @ObjectiveCName("onAppVisible")
     public void onAppVisible() {
-        modules.onAppVisible();
+        modules.getEvents().postSticky(new AppVisibleChanged(true));
     }
 
     /**
@@ -366,7 +374,7 @@ public class Messenger {
      */
     @ObjectiveCName("onAppHidden")
     public void onAppHidden() {
-        modules.onAppHidden();
+        modules.getEvents().postSticky(new AppVisibleChanged(false));
     }
 
     /**
@@ -374,9 +382,7 @@ public class Messenger {
      */
     @ObjectiveCName("onDialogsOpen")
     public void onDialogsOpen() {
-        if (modules.getNotificationsModule() != null) {
-            modules.getNotificationsModule().onDialogsOpen();
-        }
+        modules.getEvents().post(new DialogsOpened());
     }
 
     /**
@@ -384,9 +390,7 @@ public class Messenger {
      */
     @ObjectiveCName("onDialogsClosed")
     public void onDialogsClosed() {
-        if (modules.getNotificationsModule() != null) {
-            modules.getNotificationsModule().onDialogsClosed();
-        }
+        modules.getEvents().post(new DialogsClosed());
     }
 
     /**
@@ -396,12 +400,7 @@ public class Messenger {
      */
     @ObjectiveCName("onConversationOpenWithPeer:")
     public void onConversationOpen(@NotNull Peer peer) {
-        modules.getAnalyticsModule().trackChatOpen(peer);
-        if (modules.getPresenceModule() != null) {
-            modules.getPresenceModule().subscribe(peer);
-            modules.getNotificationsModule().onConversationOpen(peer);
-            modules.getMessagesModule().onConversationOpen(peer);
-        }
+        modules.getEvents().post(new PeerChatOpened(peer));
     }
 
     /**
@@ -411,10 +410,7 @@ public class Messenger {
      */
     @ObjectiveCName("onConversationClosedWithPeer:")
     public void onConversationClosed(@NotNull Peer peer) {
-        modules.getAnalyticsModule().trackChatClosed(peer);
-        if (modules.getPresenceModule() != null) {
-            modules.getNotificationsModule().onConversationClose(peer);
-        }
+        modules.getEvents().post(new PeerChatClosed(peer));
     }
 
     /**
@@ -424,10 +420,7 @@ public class Messenger {
      */
     @ObjectiveCName("onProfileOpenWithUid:")
     public void onProfileOpen(int uid) {
-        modules.getAnalyticsModule().trackProfileOpen(uid);
-        if (modules.getPresenceModule() != null) {
-            modules.getPresenceModule().subscribe(Peer.user(uid));
-        }
+        modules.getEvents().post(new PeerInfoOpened(Peer.user(uid)));
     }
 
     /**
@@ -437,7 +430,7 @@ public class Messenger {
      */
     @ObjectiveCName("onProfileClosedWithUid:")
     public void onProfileClosed(int uid) {
-        modules.getAnalyticsModule().trackProfileClosed(uid);
+        modules.getEvents().post(new PeerInfoClosed(Peer.user(uid)));
     }
 
     /**
@@ -1814,25 +1807,31 @@ public class Messenger {
         return modules.getPreferences();
     }
 
-
-    /**
-     * Executing external command
-     *
-     * @param request command request
-     * @param <T>     return type
-     * @return Command
-     */
-    @NotNull
-    @ObjectiveCName("executeExternalCommand:")
-    public <T extends Response> Command<T> executeExternalCommand(@NotNull Request<T> request) {
-        return modules.getExternalModule().externalMethod(request);
-    }
-
     /**
      * Force checking of connection
      */
     @ObjectiveCName("forceNetworkCheck")
     public void forceNetworkCheck() {
         modules.getActorApi().forceNetworkCheck();
+    }
+
+    /**
+     * Find core extension by key
+     *
+     * @param key extension key
+     * @return founded extension, null if not found
+     */
+    @ObjectiveCName("findExtension:")
+    public Extension findExtension(String key) {
+        return modules.findExtension(key);
+    }
+
+    /**
+     * Get modules of messenger for extensions
+     *
+     * @return Module Contexts
+     */
+    ModuleContext getModuleContext() {
+        return modules;
     }
 }

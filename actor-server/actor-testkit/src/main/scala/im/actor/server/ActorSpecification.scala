@@ -1,11 +1,9 @@
 package im.actor.server
 
-import java.net.InetAddress
-
 import akka.actor._
 import akka.testkit._
 import com.typesafe.config._
-import im.actor.server.commons.ActorConfig
+import im.actor.config.ActorConfig
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 

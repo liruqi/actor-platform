@@ -2,8 +2,8 @@ package im.actor.server.dialog.privat
 
 import akka.actor.Status
 import akka.pattern.pipe
-import im.actor.api.rpc.messaging.{ Message ⇒ ApiMessage, UpdateMessageRead, UpdateMessageReadByMe, UpdateMessageReceived }
-import im.actor.api.rpc.peers.{ Peer, PeerType }
+import im.actor.api.rpc.messaging.{ ApiMessage, UpdateMessageRead, UpdateMessageReadByMe, UpdateMessageReceived }
+import im.actor.api.rpc.peers.{ ApiPeer, ApiPeerType }
 import im.actor.server.dialog.Origin
 import im.actor.server.dialog.Origin.{ LEFT, RIGHT }
 import im.actor.server.dialog.{ ReadFailed, ReceiveFailed, AuthIdRandomId, PrivateDialogCommands }
@@ -14,7 +14,7 @@ import im.actor.server.sequence.{ SeqState, SeqStateDate }
 import im.actor.server.social.SocialManager._
 import im.actor.server.user.UserOffice
 import HistoryUtils._
-import im.actor.utils.cache.CacheHelpers._
+import im.actor.util.cache.CacheHelpers._
 import org.joda.time.DateTime
 
 import scala.concurrent.Future
@@ -108,7 +108,7 @@ trait PrivateDialogHandlers extends UpdateCounters {
     }
   }
 
-  private def privatePeerStruct(userId: Int): Peer = Peer(PeerType.Private, userId)
+  private def privatePeerStruct(userId: Int): ApiPeer = ApiPeer(ApiPeerType.Private, userId)
 
   private def reverse: PartialFunction[Origin, Origin] = {
     case LEFT  ⇒ RIGHT

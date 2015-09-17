@@ -70,7 +70,8 @@ class AvatarView: UIImageView {
     }
     
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder);
+        super.init(coder: aDecoder)!
+        
         self.frameSize = Int(min(frame.width, frame.height))
     }
     
@@ -90,7 +91,7 @@ class AvatarView: UIImageView {
         if let cache = avatarCache[size] {
             cache[id] = image
         } else {
-            var cache = SwiftlyLRU<jlong, UIImage>(capacity: cacheSize);
+            let cache = SwiftlyLRU<jlong, UIImage>(capacity: cacheSize);
             cache[id] = image
             avatarCache.updateValue(cache, forKey: size)
         }
@@ -128,7 +129,7 @@ class AvatarView: UIImageView {
         
         title = title.smallValue()
         
-        var needSmallAvatar: Bool = frameSize < 100
+        let needSmallAvatar: Bool = frameSize < 100
         
         var fileLocation: ACFileReference?
         if needSmallAvatar == true {
@@ -173,15 +174,15 @@ class AvatarView: UIImageView {
             
             if (self.placeholderImage == nil) {
                 requestId++
-                var callbackRequestId = requestId
-                var placeholderTitle = title
-                var placeholderId = bindedId
+                let callbackRequestId = requestId
+                let placeholderTitle = title
+                let placeholderId = bindedId
                 dispatchBackground {
                     if (callbackRequestId != self.requestId) {
                         return;
                     }
                     
-                    var image = Placeholders.avatarPlaceholder(placeholderId, size: self.frameSize, title: placeholderTitle, rounded: self.avatarType == .Rounded)
+                    let image = Placeholders.avatarPlaceholder(placeholderId, size: self.frameSize, title: placeholderTitle, rounded: self.avatarType == .Rounded)
                     
                     dispatchOnUi { () -> Void in
                         if (callbackRequestId != self.requestId) {
@@ -198,14 +199,14 @@ class AvatarView: UIImageView {
         
         // Load avatar
         
-        var cached = checkCache(frameSize, id: Int64(fileLocation!.getFileId()))
+        let cached = checkCache(frameSize, id: Int64(fileLocation!.getFileId()))
         if (cached != nil) {
             self.image = cached
             return
         }
         
         if needSmallAvatar == false {
-            var smallFileLocation = avatar?.getSmallImage()?.getFileReference()
+            let smallFileLocation = avatar?.getSmallImage()?.getFileReference()
             var smallAvatarCached = checkCache(40, id: Int64(smallFileLocation!.getFileId()))
             if smallAvatarCached == nil {
                 smallAvatarCached = checkCache(48, id: Int64(smallFileLocation!.getFileId()))
@@ -217,7 +218,7 @@ class AvatarView: UIImageView {
         
         requestId++
         
-        var callbackRequestId = requestId
+        let callbackRequestId = requestId
         self.bindedFileId = fileLocation?.getFileId()
         self.callback = CocoaDownloadCallback(onDownloaded: { (reference) -> () in
             

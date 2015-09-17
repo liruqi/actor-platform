@@ -71,7 +71,7 @@ func localized(text: String) -> String {
 
 typealias cancellable_closure = (() -> ())?
 
-func dispatch_after(#seconds:Double, queue: dispatch_queue_t = dispatch_get_main_queue(), closure:()->()) -> cancellable_closure {
+func dispatch_after(seconds:Double, queue: dispatch_queue_t = dispatch_get_main_queue(), closure:()->()) -> cancellable_closure {
     var cancelled = false
     let cancel_closure: cancellable_closure = {
         cancelled = true
@@ -102,7 +102,7 @@ class ObjectPool<T: AnyObject> {
     
     func get() -> T? {
         if objects.count > 0 {
-            var res = objects.objectAtIndex(objects.count - 1) as! T
+            let res = objects.objectAtIndex(objects.count - 1) as! T
             objects.removeLastObject()
             return res
         }

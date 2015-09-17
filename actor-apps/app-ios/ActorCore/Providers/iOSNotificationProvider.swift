@@ -14,21 +14,21 @@ import AudioToolbox.AudioServices
     
     override init() {
         super.init()
-        var path = NSBundle.mainBundle().URLForResource("notification", withExtension: "caf");
-        AudioServicesCreateSystemSoundID(path, &internalMessage)
+        let path = NSBundle.mainBundle().URLForResource("notification", withExtension: "caf");
+        AudioServicesCreateSystemSoundID(path!, &internalMessage)
     }
     
     func onMessageArriveInAppWithMessenger(messenger: ACMessenger!) {
-        var currentTime = NSDate().timeIntervalSinceReferenceDate
+        let currentTime = NSDate().timeIntervalSinceReferenceDate
         if (currentTime - lastSoundPlay > 0.2) {
             AudioServicesPlaySystemSound(internalMessage)
             lastSoundPlay = currentTime
         }
     }
-
-    func onNotificationWithMessenger(messenger: ACMessenger!, withTopNotifications topNotifications: JavaUtilList!, withMessagesCount messagesCount: jint, withConversationsCount conversationsCount: jint, withIsInApp isInApp: Bool) {
+    
+    func onNotificationWithMessenger(messenger: ACMessenger!, withTopNotifications topNotifications: JavaUtilList!, withMessagesCount messagesCount: jint, withConversationsCount conversationsCount: jint) {
         
-        var n = topNotifications.getWithInt(0) as! ACNotification
+        let n = topNotifications.getWithInt(0) as! ACNotification
         
         messenger.getFormatter().formatNotificationText(n)
         
@@ -36,52 +36,23 @@ import AudioToolbox.AudioServices
         if (!messenger.isShowNotificationsText()) {
             message = NSLocalizedString("NotificationSecretMessage", comment: "New Message")
         }
-        var senderUser = messenger.getUserWithUid(n.getSender())
+        let senderUser = messenger.getUserWithUid(n.getSender())
         var sender = senderUser.getNameModel().get()
-        var peer = n.getPeer()
+        let peer = n.getPeer()
         
-        if (UInt(n.getPeer().getPeerType().ordinal()) == ACPeerType.GROUP.rawValue) {
-            var group = messenger.getGroupWithGid(n.getPeer().getPeerId())
+        if (UInt(peer.getPeerType().ordinal()) == ACPeerType.GROUP.rawValue) {
+            let group = messenger.getGroupWithGid(n.getPeer().getPeerId())
             sender = "\(sender)@\(group.getNameModel().get())"
         }
         
-        if (isInApp) {
-            if (messenger.isInAppNotificationSoundEnabled()) {
-                var path = getNotificationSound(messenger)
-                if (sounds[path] == nil) {
-                    var fileUrl = NSBundle.mainBundle().URLForResource(path, withExtension: "caf");
-                    var messageSound:SystemSoundID = 0
-                    AudioServicesCreateSystemSoundID(fileUrl, &messageSound)
-                    sounds[path] = messageSound
-                }
-                AudioServicesPlaySystemSound(sounds[path]!)
+        dispatchOnUi { () -> Void in
+            let localNotification =  UILocalNotification ()
+            localNotification.alertBody = "\(sender): \(message)"
+            if (messenger.isNotificationSoundEnabled()) {
+                localNotification.soundName = "\(self.getNotificationSound(messenger)).caf"
             }
-            
-            if (messenger.isInAppNotificationVibrationEnabled()) {
-                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            }
-            dispatchOnUi { () -> Void in
-                TWMessageBarManager.sharedInstance().showMessageWithTitle(sender, description: message, type: TWMessageBarMessageType.Info, callback: { () -> Void in
-                    var root = UIApplication.sharedApplication().keyWindow!.rootViewController!
-                    if let tab = root as? MainTabViewController {
-                        var controller = tab.viewControllers![tab.selectedIndex] as! AANavigationController
-                        var destController = ConversationViewController(peer: peer)
-                        destController.hidesBottomBarWhenPushed = true
-                        controller.pushViewController(destController, animated: true)
-                    } else if let split = root as? MainSplitViewController {
-                        split.navigateDetail(ConversationViewController(peer: peer))
-                    }
-                })
-            }
-        } else {
-            dispatchOnUi { () -> Void in
-                var localNotification =  UILocalNotification ()
-                localNotification.alertBody = "\(sender): \(message)"
-                if (messenger.isNotificationSoundEnabled()) {
-                    localNotification.soundName = "\(self.getNotificationSound(messenger)).caf"
-                }
-                UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
-            }
+            localNotification.applicationIconBadgeNumber = Actor.getAppState().getGlobalCounter().get().integerValue
+            UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
         }
     }
     
@@ -90,12 +61,21 @@ import AudioToolbox.AudioServices
     }
     
     func hideAllNotifications() {
-        // Not Supported
+        dispatchOnUi { () -> Void in
+            // Clearing notifications
+            let number = Actor.getAppState().getGlobalCounter().get().integerValue
+            UIApplication.sharedApplication().applicationIconBadgeNumber = 0 // If current value will equals to number + 1
+            UIApplication.sharedApplication().applicationIconBadgeNumber = number + 1
+            UIApplication.sharedApplication().applicationIconBadgeNumber = number
+            
+            // Clearing local notifications
+            UIApplication.sharedApplication().cancelAllLocalNotifications()
+        }
     }
     
     func getNotificationSound(messenger: ACMessenger!) -> String {
         if (messenger.getNotificationSound() != nil) {
-            var path = NSBundle.mainBundle().pathForResource(messenger.getNotificationSound(), ofType: "caf")
+            let path = NSBundle.mainBundle().pathForResource(messenger.getNotificationSound(), ofType: "caf")
             if (NSFileManager.defaultManager().fileExistsAtPath(path!)) {
                 return messenger.getNotificationSound()
             }

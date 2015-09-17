@@ -40,7 +40,7 @@ extension UIViewController {
     }
     
     func textInputAlert(message: String, content: String?, action:String, tapYes: (nval: String)->()) {
-        var alertView = UIAlertView(
+        let alertView = UIAlertView(
             title: nil,
             message: NSLocalizedString(message, comment: "Title"),
             delegate: self,
@@ -52,7 +52,7 @@ extension UIViewController {
         alertView.textFieldAtIndex(0)!.keyboardAppearance = MainAppTheme.common.isDarkKeyboard ? UIKeyboardAppearance.Dark : UIKeyboardAppearance.Light
         alertView.tapBlock = { (alert: UIAlertView, buttonIndex) -> () in
             if (buttonIndex != alert.cancelButtonIndex) {
-                tapYes(nval: alert.textFieldAtIndex(0)!.text)
+                tapYes(nval: alert.textFieldAtIndex(0)!.text!)
             }
         }
         alertView.show()
@@ -111,7 +111,7 @@ extension UIViewController {
     }
     
     func showActionSheetFast(buttons: [String], cancelButton: String, tapClosure: (index: Int) -> ()) {
-        var actionShit = ABActionShit()
+        let actionShit = ABActionShit()
         
         var convertedButtons:[String] = [String]()
         for b in buttons {
@@ -120,11 +120,11 @@ extension UIViewController {
         
         actionShit.buttonTitles = convertedButtons
         actionShit.cancelButtonTitle = NSLocalizedString(cancelButton,comment: "Cancel")
-        var shitDelegate = ActionShitDelegate(tapClosure: tapClosure)
+        let shitDelegate = ActionShitDelegate(tapClosure: tapClosure)
         actionShit.delegate = shitDelegate
         
         // Convert from weak to strong reference
-        setAssociatedObject(actionShit, shitDelegate, &actionShitReference, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+        setAssociatedObject(actionShit, value: shitDelegate, associativeKey: &actionShitReference, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         
         actionShit.showWithCompletion(nil)
     }
