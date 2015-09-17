@@ -1,6 +1,7 @@
 package im.actor.core.modules;
 
 import im.actor.core.Configuration;
+import im.actor.core.Extension;
 import im.actor.core.Messenger;
 import im.actor.core.i18n.I18nEngine;
 import im.actor.core.modules.internal.AnalyticsModule;
@@ -32,6 +33,8 @@ public interface ModuleContext {
 
     // API Access
     ActorApi getActorApi();
+
+    ApiModule getApiModule();
 
     // Preferences
     PreferencesStorage getPreferences();
@@ -83,4 +86,6 @@ public interface ModuleContext {
     Messenger getMessenger();
 
     MentionsModule getMentions();
+
+    Extension findExtension(String key);
 }

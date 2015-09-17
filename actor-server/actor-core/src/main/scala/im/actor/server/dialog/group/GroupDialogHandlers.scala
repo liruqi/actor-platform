@@ -3,7 +3,7 @@ package im.actor.server.dialog.group
 import akka.actor.Status
 import akka.pattern.pipe
 import com.google.protobuf.ByteString
-import im.actor.api.rpc.messaging.{ Message ⇒ ApiMessage, UpdateMessageRead, UpdateMessageReadByMe, UpdateMessageReceived }
+import im.actor.api.rpc.messaging.{ ApiMessage, UpdateMessageRead, UpdateMessageReadByMe, UpdateMessageReceived }
 import im.actor.server.dialog.{ AuthIdRandomId, GroupDialogCommands, ReadFailed, ReceiveFailed }
 import im.actor.server.group.GroupErrors.NotAMember
 import im.actor.server.group.GroupOffice
@@ -14,7 +14,7 @@ import im.actor.server.sequence.SeqUpdatesManager._
 import im.actor.server.sequence.{ SeqState, SeqStateDate }
 import im.actor.server.user.UserOffice
 import HistoryUtils._
-import im.actor.utils.cache.CacheHelpers._
+import im.actor.util.cache.CacheHelpers._
 import org.joda.time.DateTime
 
 import scala.concurrent.Future

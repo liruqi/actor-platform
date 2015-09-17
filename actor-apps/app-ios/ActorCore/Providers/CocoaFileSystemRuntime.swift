@@ -7,10 +7,9 @@ import Foundation
 // Public methods for working with files
 class CocoaFiles {
     class func pathFromDescriptor(path: String) -> String {
-        var manager = NSFileManager.defaultManager();
-        var documentsFolders = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)!;
+        var documentsFolders = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         if (documentsFolders.count > 0) {
-            var appPath = (documentsFolders[0] as! String).stringByDeletingLastPathComponent
+            let appPath = documentsFolders[0].asNS.stringByDeletingLastPathComponent
             return appPath + path
         } else {
             fatalError("Unable to load Application path")
@@ -24,44 +23,41 @@ class CocoaFiles {
     
     var appPath: String = ""
     
+    let manager = NSFileManager.defaultManager()
+    
     override init() {
         super.init()
         
-        var manager = NSFileManager.defaultManager();
-        var documentsFolders = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)!;
+        var documentsFolders = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         if (documentsFolders.count > 0) {
-            appPath = (documentsFolders[0] as! String).stringByDeletingLastPathComponent
+            appPath = documentsFolders[0].asNS.stringByDeletingLastPathComponent
         } else {
             fatalError("Unable to load Application path")
         }
     }
     
     func createTempFile() -> ARFileSystemReference! {
-        var fileName = "/tmp/\(NSUUID().UUIDString)"
-        NSFileManager.defaultManager().createFileAtPath(appPath + fileName, contents: NSData(), attributes: nil);
-        return CocoaFile(path: fileName);
+        let fileName = "/tmp/\(NSUUID().UUIDString)"
+        NSFileManager.defaultManager().createFileAtPath(appPath + fileName, contents: NSData(), attributes: nil)
+        return CocoaFile(path: fileName)
     }
     
     func commitTempFile(sourceFile: ARFileSystemReference!, withFileId fileId: jlong, withFileName fileName: String!) -> ARFileSystemReference! {
-        var manager = NSFileManager.defaultManager();
-        
-        var baseName = fileName;
-        
+
+        // Finding file available name
         var index = 0;
-        while(manager.fileExistsAtPath("\(appPath)/Documents/\(index)_\(baseName)")) {
+        while(manager.fileExistsAtPath("\(appPath)/Documents/\(index)_\(fileName)")) {
             index = index + 1;
         }
+        let resultPath = "/Documents/\(index)_\(fileName)";
         
-        var resultPath = "/Documents/\(index)_\(baseName)";
-        
-        var error : NSError?;
-        manager.moveItemAtPath(appPath + sourceFile.getDescriptor()!, toPath: appPath + resultPath, error: &error)
-        
-        if (error == nil) {
+        // Moving file to new place
+        do {
+            try manager.moveItemAtPath(appPath + sourceFile.getDescriptor()!, toPath: appPath + resultPath)
             return CocoaFile(path: resultPath)
+        } catch _ {
+            return nil
         }
-        
-        return nil
     }
     
     func fileFromDescriptor(descriptor: String!) -> ARFileSystemReference! {
@@ -92,21 +88,17 @@ class CocoaFile : NSObject, ARFileSystemReference {
     }
     
     func getSize() -> jint {
-        
-        var error:NSError?;
-        
-        var attrs = NSFileManager().attributesOfItemAtPath(realPath, error: &error);
-        
-        if (error != nil) {
-            return 0;
+        do {
+            let attrs = try NSFileManager().attributesOfItemAtPath(realPath)
+            return jint(NSDictionary.fileSize(attrs)())
+        } catch _ {
+            return 0
         }
-        
-        return jint(NSDictionary.fileSize(attrs!)());
     }
     
     func openWriteWithSize(size: jint) -> AROutputFile! {
         
-        var fileHandle = NSFileHandle(forWritingAtPath: realPath);
+        let fileHandle = NSFileHandle(forWritingAtPath: realPath);
 
         if (fileHandle == nil) {
             return nil
@@ -120,7 +112,7 @@ class CocoaFile : NSObject, ARFileSystemReference {
     
     func openRead() -> ARInputFile! {
         
-        var fileHandle = NSFileHandle(forReadingAtPath: realPath);
+        let fileHandle = NSFileHandle(forReadingAtPath: realPath);
         
         if (fileHandle == nil) {
             return nil
@@ -139,10 +131,10 @@ class CocoaOutputFile : NSObject, AROutputFile {
     }
     
     func writeWithOffset(fileOffset: jint, withData data: IOSByteArray!, withDataOffset dataOffset: jint, withLength dataLen: jint) -> Bool {
-        var toWrite = NSMutableData(length: Int(dataLen))!;
+        let toWrite = NSMutableData(length: Int(dataLen))!;
         var srcBuffer = UnsafeMutablePointer<UInt8>(data.buffer());
         var destBuffer = UnsafeMutablePointer<UInt8>(toWrite.bytes);
-        for i in 0..<dataLen {
+        for _ in 0..<dataLen {
             destBuffer.memory = srcBuffer.memory;
             destBuffer++;
             srcBuffer++;
@@ -172,12 +164,12 @@ class CocoaInputFile :NSObject, ARInputFile {
     func readWithOffset(fileOffset: jint, withData data: IOSByteArray!, withDataOffset offset: jint, withLength len: jint, withCallback callback: ARFileReadCallback!) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
             self.fileHandle.seekToFileOffset(UInt64(fileOffset));
-            var readed:NSData = self.fileHandle.readDataOfLength(Int(len));
+            let readed:NSData = self.fileHandle.readDataOfLength(Int(len));
             
             var srcBuffer = UnsafeMutablePointer<UInt8>(readed.bytes);
             var destBuffer = UnsafeMutablePointer<UInt8>(data.buffer());
-            var len = min(Int(len), Int(readed.length));
-            for i in offset..<offset+len {
+            let len = min(Int(len), Int(readed.length));
+            for _ in offset..<offset+len {
                 destBuffer.memory = srcBuffer.memory;
                 destBuffer++;
                 srcBuffer++;

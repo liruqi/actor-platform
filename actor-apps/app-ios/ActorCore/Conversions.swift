@@ -46,6 +46,14 @@ extension ACMessage {
     }
 }
 
+extension ACPeer {
+    var isGroup: Bool {
+        get {
+            return UInt(self.getPeerType().ordinal()) == ACPeerType.GROUP.rawValue
+        }
+    }
+}
+
 extension NSMutableData {
     func appendUInt32(value: UInt32) {
       var raw = value.bigEndian
@@ -102,7 +110,6 @@ extension NSData {
         var bytesArray = self.bytes();
         
         for (var i = 0; i < bytesArray.count; i++) {
-            var b = bytesArray[i]
             s = s + UInt32(bytesArray[i])
         }
         s = s % 65536;
@@ -223,7 +230,7 @@ class CRC32 {
         
         // reverse bytes
         let bytes = NSMutableData(bytes: &crc, length: 4).bytes().reverse()
-        var data = NSData(bytes: bytes, length: bytes.count)
+        var data = NSData(bytes: bytes as! [UInt8], length: bytes.count)
         return data
     }   
 }

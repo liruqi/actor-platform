@@ -11,7 +11,7 @@ import Foundation
     
     override init() {
         self.dbPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
-            .UserDomainMask, true)[0].stringByAppendingPathComponent("actor.db")
+            .UserDomainMask, true)[0].asNS.stringByAppendingPathComponent("actor.db")
     }
     
     func createPreferencesStorage() -> ARPreferencesStorage! {
@@ -33,7 +33,7 @@ import Foundation
     func resetStorage() {
         preferences.clear()
         
-        var db = FMDatabase(path: dbPath)
+        let db = FMDatabase(path: dbPath)
         db.open()
         db.executeStatements("select 'drop table ' || name || ';' from sqlite_master where type = 'table';")
         db.close()

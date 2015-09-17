@@ -67,11 +67,11 @@ class GroupViewController: AATableViewController {
             .setHeight(avatarHeight)
         
         // Change Photo
-        var adminSection = tableData.addSection(autoSeparator: true)
+        let adminSection = tableData.addSection(true)
             .setFooterHeight(15)
         
         adminSection.addActionCell("GroupSetPhoto", actionClosure: { () -> () in
-            var hasCamera = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
+            let hasCamera = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
             self.showActionSheet( hasCamera ? ["PhotoCamera", "PhotoLibrary"] : ["PhotoLibrary"],
                 cancelButton: "AlertCancel",
                 destructButton: self.group?.getAvatarModel().get() != nil ? "PhotoRemove" : nil,
@@ -107,7 +107,7 @@ class GroupViewController: AATableViewController {
 //            })
         
         // Notifications
-        tableData.addSection(autoSeparator: true)
+        tableData.addSection(true)
             .setHeaderHeight(15)
             .setFooterHeight(15)
             .addCommonCell()
@@ -124,7 +124,7 @@ class GroupViewController: AATableViewController {
         
         // Members
         
-        var membersSection = tableData.addSection(autoSeparator: true)
+        let membersSection = tableData.addSection(true)
             .setHeaderHeight(15)
         
         membersSection
@@ -134,10 +134,10 @@ class GroupViewController: AATableViewController {
             }
             return 0
         }) { (tableView, index, indexPath) -> UITableViewCell in
-            var cell: GroupMemberCell = tableView.dequeueReusableCellWithIdentifier(self.UserCellIdentifier, forIndexPath: indexPath) as! GroupMemberCell
+            let cell: GroupMemberCell = tableView.dequeueReusableCellWithIdentifier(self.UserCellIdentifier, forIndexPath: indexPath) as! GroupMemberCell
             if let groupMember = self.groupMembers!.objectAtIndex(UInt(index)) as? ACGroupMember,
                 let user = Actor.getUserWithUid(groupMember.getUid()) {
-                    var username = user.getNameModel().get()
+                    let username = user.getNameModel().get()
                     let avatar: ACAvatar? = user.getAvatarModel().get()
                     cell.userAvatarView.bind(username, id: user.getId(), avatar: avatar)
                     cell.setUsername(username)
@@ -149,7 +149,7 @@ class GroupViewController: AATableViewController {
                     return
                 }
                 
-                var name = user.getNameModel().get()
+                let name = user.getNameModel().get()
                 self.showActionSheet(name,
                     buttons: isIPhone ? ["GroupMemberInfo", "GroupMemberWrite", "GroupMemberCall"] : ["GroupMemberInfo", "GroupMemberWrite"],
                     cancelButton: "Cancel",
@@ -158,7 +158,7 @@ class GroupViewController: AATableViewController {
                     sourceRect: self.view.bounds,
                     tapClosure: { (index) -> () in
                         if (index == -2) {
-                            self.confirmUser(NSLocalizedString("GroupMemberKickMessage", comment: "Button Title").stringByReplacingOccurrencesOfString("{name}", withString: name, options: NSStringCompareOptions.allZeros, range: nil),
+                            self.confirmUser(NSLocalizedString("GroupMemberKickMessage", comment: "Button Title").stringByReplacingOccurrencesOfString("{name}", withString: name, options: NSStringCompareOptions(), range: nil),
                                 action: "GroupMemberKickAction",
                                 cancel: "AlertCancel",
                                 sourceView: self.view,
@@ -173,16 +173,16 @@ class GroupViewController: AATableViewController {
                                 self.navigateDetail(ConversationViewController(peer: ACPeer.userWithInt(user.getId())))
                                 self.popover?.dismissPopoverAnimated(true)
                             } else if (index == 2) {
-                                var phones = user.getPhonesModel().get()
+                                let phones = user.getPhonesModel().get()
                                 if phones.size() == 0 {
                                     self.alertUser("GroupMemberCallNoPhones")
                                 } else if phones.size() == 1 {
-                                    var number = phones.getWithInt(0)
+                                    let number = phones.getWithInt(0)
                                     UIApplication.sharedApplication().openURL(NSURL(string: "telprompt://+\(number.getPhone())")!)
                                 } else {
                                     var numbers = [String]()
                                     for i in 0..<phones.size() {
-                                        var p = phones.getWithInt(i)
+                                        let p = phones.getWithInt(i)
                                         numbers.append("\(p.getTitle()): +\(p.getPhone())")
                                     }
                                     self.showActionSheet(numbers,
@@ -192,7 +192,7 @@ class GroupViewController: AATableViewController {
                                         sourceRect: self.view.bounds,
                                         tapClosure: { (index) -> () in
                                         if (index >= 0) {
-                                            var number = phones.getWithInt(jint(index))
+                                            let number = phones.getWithInt(jint(index))
                                             UIApplication.sharedApplication().openURL(NSURL(string: "telprompt://+\(number.getPhone())")!)
                                         }
                                     })
@@ -218,7 +218,7 @@ class GroupViewController: AATableViewController {
             .setLeftInset(65.0)
         
         // Leave group
-        tableData.addSection(autoSeparator: true)
+        tableData.addSection(true)
             .setFooterHeight(15)
             .setHeaderHeight(15)
             .addActionCell("GroupLeave", actionClosure: { () -> () in
@@ -236,7 +236,7 @@ class GroupViewController: AATableViewController {
         
         // Bind group info
         binder.bind(group!.getNameModel()!, closure: { (value: String?) -> () in
-            var cell: GroupPhotoCell? = self.tableView.cellForRowAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? GroupPhotoCell
+            let cell: GroupPhotoCell? = self.tableView.cellForRowAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? GroupPhotoCell
             if cell != nil {
                 cell!.setGroupName(value!)
             }
@@ -283,7 +283,7 @@ class GroupViewController: AATableViewController {
     
     func editName() {
         textInputAlert("GroupEditHeader", content: group!.getNameModel().get(), action: "AlertSave") { (nval) -> () in
-            if count(nval) > 0 {
+            if nval.length > 0 {
                 self.confirmUser("GroupEditConfirm",
                     action: "GroupEditConfirmAction",
                     cancel: "AlertCancel",

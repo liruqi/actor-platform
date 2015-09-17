@@ -5,9 +5,9 @@ import akka.contrib.pattern.ShardRegion
 import akka.pattern.pipe
 import akka.persistence.{ RecoveryCompleted, RecoveryFailure }
 import akka.util.Timeout
-import im.actor.api.rpc.misc.Extension
-import im.actor.server.commons.KeyValueMappings
-import im.actor.server.commons.serialization.ActorSerializer
+import im.actor.api.rpc.misc.ApiExtension
+import im.actor.serialization.ActorSerializer
+import im.actor.server.KeyValueMappings
 import im.actor.server.db.DbExtension
 import im.actor.server.event.TSEvent
 import im.actor.server.file.{ FileStorageAdapter, S3StorageExtension, Avatar }
@@ -50,7 +50,7 @@ private[group] case class Group(
   topic:           Option[String],
   isHidden:        Boolean,
   isHistoryShared: Boolean,
-  extensions:      Seq[Extension]
+  extensions:      Seq[ApiExtension]
 ) extends ProcessorState
 
 trait GroupCommand {

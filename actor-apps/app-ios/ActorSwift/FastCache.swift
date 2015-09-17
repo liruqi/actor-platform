@@ -7,12 +7,12 @@ import Foundation
 struct HashMap<T> {
     var table = Array<SinglyLinkedList<T>?>()
     init() {
-        for i in 0...99 {
+        for _ in 0...99 {
             table.append(SinglyLinkedList<T>())
         }
     }
     
-    mutating func setKey(key: Int64, withValue val: T) {
+    mutating func setKey(key: Int64, withValue val: T?) {
         let hashedString = Int(abs(key) % 10)
         if let collisionList = table[hashedString] {
             collisionList.upsertNodeWithKey(key, AndValue: val)
@@ -47,7 +47,7 @@ struct SinglyLinkedList<T> {
             return nil
         }
     }
-    func upsertNodeWithKey(key: Int64, AndValue val: T) -> CCSinglyNode<T> {
+    func upsertNodeWithKey(key: Int64, AndValue val: T?) -> CCSinglyNode<T> {
         if var currentNode = head.next {
             while let nextNode = currentNode.next {
                 if currentNode.key == key {
@@ -69,15 +69,15 @@ struct SinglyLinkedList<T> {
         }
     }
     func displayNodes() {
-        println("Printing Nodes")
+        print("Printing Nodes")
         if var currentNode = head.next {
-            println("First Node's Value is \(currentNode.value!)")
+            print("First Node's Value is \(currentNode.value!)")
             while let nextNode = currentNode.next {
                 currentNode = nextNode
-                println("Next Node's Value is \(currentNode.value!)")
+                print("Next Node's Value is \(currentNode.value!)")
             }
         } else {
-            println("List is empty")
+            print("List is empty")
         }
     }
 }
@@ -94,7 +94,7 @@ class CCHeadNode<T> {
 class CCSinglyNode<T>: CCNode<T> {
     var key: Int64
     var next: CCSinglyNode<T>?
-    init(key: Int64, value: T, nextNode: CCSinglyNode<T>?) {
+    init(key: Int64, value: T?, nextNode: CCSinglyNode<T>?) {
         self.next = nextNode
         self.key = key
         super.init(value: value)

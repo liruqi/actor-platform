@@ -36,7 +36,7 @@ class SettingsPrivacyViewController: AATableViewController {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
         execute(Actor.loadSessionsCommand(), successBlock: { (val) -> Void in
-            var list = val as! JavaUtilList
+            let list = val as! JavaUtilList
             self.authSessions = []
             for i in 0..<list.size() {
                 self.authSessions!.append(list.getWithInt(jint(i)) as! ARApiAuthSession)
@@ -49,7 +49,7 @@ class SettingsPrivacyViewController: AATableViewController {
     // MARK: Getters
     
     private func terminateSessionsCell(indexPath: NSIndexPath) -> CommonCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
         
         cell.setContent(NSLocalizedString("PrivacyTerminate", comment: "Terminate action"))
         cell.style = .Normal
@@ -60,8 +60,8 @@ class SettingsPrivacyViewController: AATableViewController {
     }
     
     private func sessionsCell(indexPath: NSIndexPath) -> CommonCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
-        var session = authSessions![indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! CommonCell
+        let session = authSessions![indexPath.row]
         cell.setContent(session.getDeviceTitle())
         cell.style = .Normal
 //        if (indexPath.row == 0) {
@@ -78,7 +78,7 @@ class SettingsPrivacyViewController: AATableViewController {
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if authSessions != nil {
-            if count(authSessions!) > 0 {
+            if authSessions!.count > 0 {
                 return 2
             }
         }
@@ -87,7 +87,7 @@ class SettingsPrivacyViewController: AATableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
-            return count(authSessions!)
+            return authSessions!.count
         }
         return 1
     }
@@ -117,7 +117,7 @@ class SettingsPrivacyViewController: AATableViewController {
         } else if (indexPath.section == 1) {
             execute(Actor.terminateSessionCommandWithId(authSessions![indexPath.row].getId()), successBlock: { (val) -> Void in
                 self.execute(Actor.loadSessionsCommand(), successBlock: { (val) -> Void in
-                    var list = val as! JavaUtilList
+                    let list = val as! JavaUtilList
                     self.authSessions = []
                     for i in 0..<list.size() {
                         self.authSessions!.append(list.getWithInt(jint(i)) as! ARApiAuthSession)
@@ -130,11 +130,11 @@ class SettingsPrivacyViewController: AATableViewController {
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-        header.textLabel.textColor = MainAppTheme.list.sectionColor
+        header.textLabel!.textColor = MainAppTheme.list.sectionColor
     }
     
     func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-        header.textLabel.textColor = MainAppTheme.list.hintColor
+        header.textLabel!.textColor = MainAppTheme.list.hintColor
     }    
 }

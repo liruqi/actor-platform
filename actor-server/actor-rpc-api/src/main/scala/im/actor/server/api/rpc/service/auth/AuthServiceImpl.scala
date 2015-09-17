@@ -3,6 +3,7 @@ package im.actor.server.api.rpc.service.auth
 import java.time.{ ZoneOffset, LocalDateTime }
 
 import im.actor.server.acl.ACLUtils
+import im.actor.util.log.AnyRefLogSource
 
 import scala.concurrent._, duration._
 import scala.concurrent.forkjoin.ThreadLocalRandom
@@ -19,10 +20,10 @@ import slick.driver.PostgresDriver.api._
 
 import im.actor.api.rpc.DBIOResult._
 import im.actor.api.rpc._
-import im.actor.api.rpc.auth.EmailActivationType._
+import im.actor.api.rpc.auth.ApiEmailActivationType._
 import im.actor.api.rpc.auth._
 import im.actor.api.rpc.misc._
-import im.actor.api.rpc.users.Sex.Sex
+import im.actor.api.rpc.users.ApiSex.ApiSex
 import im.actor.server.activation.internal.CodeActivation
 import im.actor.server.db.DbExtension
 import im.actor.server.oauth.{ OAuth2ProvidersDomains, GoogleProvider }
@@ -30,9 +31,9 @@ import im.actor.server.persist.auth.AuthTransaction
 import im.actor.server.sequence.SeqUpdatesExtension
 import im.actor.server.session._
 import im.actor.server.social.{ SocialExtension, SocialManagerRegion }
-import im.actor.server.util.PhoneNumberUtils._
+import im.actor.util.misc.PhoneNumberUtils._
 import im.actor.server.user.{ UserViewRegion, UserExtension, UserOffice, UserProcessorRegion }
-import im.actor.server.util._
+import im.actor.util.misc._
 import im.actor.server.{ persist, models }
 
 case class PubSubMediator(mediator: ActorRef)
@@ -75,12 +76,12 @@ class AuthServiceImpl(val activationContext: CodeActivation, mediator: ActorRef)
         val sessionStructs = sessionModels map { sessionModel ⇒
           val authHolder =
             if (client.authId == sessionModel.authId) {
-              AuthHolder.ThisDevice
+              ApiAuthHolder.ThisDevice
             } else {
-              AuthHolder.OtherDevice
+              ApiAuthHolder.OtherDevice
             }
 
-          AuthSession(
+          ApiAuthSession(
             sessionModel.id,
             authHolder,
             sessionModel.appId,
@@ -134,7 +135,7 @@ class AuthServiceImpl(val activationContext: CodeActivation, mediator: ActorRef)
         _ ← fromDBIO(refreshAuthSession(transaction.deviceHash, authSession))
         _ ← fromDBIO(persist.auth.AuthTransaction.delete(transactionHash))
         ack ← fromFuture(authorize(user.id, clientData))
-      } yield ResponseAuth(userStruct, misc.Config(maxGroupSize))
+      } yield ResponseAuth(userStruct, misc.ApiConfig(maxGroupSize))
     db.run(action.run)
   }
 
@@ -168,7 +169,7 @@ class AuthServiceImpl(val activationContext: CodeActivation, mediator: ActorRef)
     db.run(action.run)
   }
 
-  def jhandleSignUp(transactionHash: String, name: String, sex: Option[Sex], clientData: ClientData): Future[HandlerResult[ResponseAuth]] = {
+  def jhandleSignUp(transactionHash: String, name: String, sex: Option[ApiSex], clientData: ClientData): Future[HandlerResult[ResponseAuth]] = {
     val action: Result[ResponseAuth] =
       for {
         //retrieve `authTransaction`
@@ -201,7 +202,7 @@ class AuthServiceImpl(val activationContext: CodeActivation, mediator: ActorRef)
         )
         _ ← fromDBIO(refreshAuthSession(transaction.deviceHash, authSession))
         ack ← fromFuture(authorize(user.id, clientData))
-      } yield ResponseAuth(userStruct, misc.Config(maxGroupSize))
+      } yield ResponseAuth(userStruct, misc.ApiConfig(maxGroupSize))
     db.run(action.run)
   }
 
@@ -265,7 +266,7 @@ class AuthServiceImpl(val activationContext: CodeActivation, mediator: ActorRef)
         )
         _ ← fromDBIO(refreshAuthSession(transaction.deviceHash, authSession))
         ack ← fromFuture(authorize(user.id, clientData))
-      } yield ResponseAuth(userStruct, misc.Config(maxGroupSize))
+      } yield ResponseAuth(userStruct, misc.ApiConfig(maxGroupSize))
     db.run(action.run)
   }
 
@@ -432,7 +433,7 @@ class AuthServiceImpl(val activationContext: CodeActivation, mediator: ActorRef)
                         //todo: move this to UserOffice
                         val user = models.User(userId, ACLUtils.nextAccessSalt(rnd), name, countryCode, models.NoSex, models.UserState.Registered, LocalDateTime.now(ZoneOffset.UTC))
                         for {
-                          _ ← DBIO.from(UserOffice.create(user.id, user.accessSalt, user.name, user.countryCode, im.actor.api.rpc.users.Sex(user.sex.toInt), isBot = false))
+                          _ ← DBIO.from(UserOffice.create(user.id, user.accessSalt, user.name, user.countryCode, im.actor.api.rpc.users.ApiSex(user.sex.toInt), isBot = false))
                           _ ← DBIO.from(UserOffice.auth(userId, clientData.authId))
                           _ ← DBIO.from(UserOffice.addPhone(user.id, normPhoneNumber))
                           _ ← persist.AvatarData.create(models.AvatarData.empty(models.AvatarData.OfUser, user.id.toLong))
@@ -480,7 +481,7 @@ class AuthServiceImpl(val activationContext: CodeActivation, mediator: ActorRef)
                 Ok(
                   ResponseAuth(
                     userStruct,
-                    misc.Config(maxGroupSize)
+                    misc.ApiConfig(maxGroupSize)
                   )
                 )
               }

@@ -6,7 +6,7 @@ import Foundation
 import UIKit
 import MessageUI
 
-class MainTabViewController : UITabBarController, UITabBarDelegate {
+class MainTabViewController : UITabBarController {
     
     // MARK: -
     // MARK: Private vars
@@ -77,13 +77,7 @@ class MainTabViewController : UITabBarController, UITabBarDelegate {
                 let dialogsNavigation = AANavigationController(rootViewController: DialogsViewController())
                 let settingsNavigation = AANavigationController(rootViewController: SettingsViewController())
                 
-                if Actor.config.enableCommunity {
-                    let exploreNavigation = AANavigationController(rootViewController: DiscoverViewController())
-                    viewControllers = [contactsNavigation, dialogsNavigation, exploreNavigation, settingsNavigation]
-                } else {
-                    viewControllers = [contactsNavigation, dialogsNavigation, settingsNavigation]
-                }
-                
+                viewControllers = [contactsNavigation, dialogsNavigation, settingsNavigation]
 
                 selectedIndex = 0;
                 selectedIndex = 1;
@@ -142,7 +136,7 @@ class MainTabViewController : UITabBarController, UITabBarDelegate {
                 MainAppTheme.navigation.applyStatusBarFast()
             })
         } else {
-            UIAlertView(title: "Error", message: "Cannot send SMS", delegate: nil, cancelButtonTitle: "OK") // TODO: Show or not to show?
+            UIAlertView(title: "Error", message: "Cannot send SMS", delegate: nil, cancelButtonTitle: "OK").show()
         }
     }
     
@@ -151,7 +145,7 @@ class MainTabViewController : UITabBarController, UITabBarDelegate {
     }
     
     func doAddContact() {
-        var alertView = UIAlertView(
+        let alertView = UIAlertView(
             title: NSLocalizedString("ContactsAddHeader", comment: "Alert Title"),
             message: NSLocalizedString("ContactsAddHint", comment: "Alert Hint"),
             delegate: self,
@@ -177,8 +171,8 @@ class MainTabViewController : UITabBarController, UITabBarDelegate {
         return false
     }
     
-    override func supportedInterfaceOrientations() -> Int {
-        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -188,7 +182,7 @@ class MainTabViewController : UITabBarController, UITabBarDelegate {
 
 extension MainTabViewController: MFMessageComposeViewControllerDelegate {
     
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -200,7 +194,7 @@ extension MainTabViewController: UIAlertViewDelegate {
         // TODO: Localize
         if buttonIndex == 1 {
             let textField = alertView.textFieldAtIndex(0)!
-            if count(textField.text) > 0 {
+            if textField.text?.length > 0 {
                 self.execute(Actor.findUsersCommandWithQuery(textField.text), successBlock: { (val) -> Void in
                     var user: ACUserVM?
                     user = val as? ACUserVM

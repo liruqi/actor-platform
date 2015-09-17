@@ -3,11 +3,10 @@ package im.actor.server.user
 import akka.actor.ActorSystem
 import akka.pattern.pipe
 
-import im.actor.api.rpc.users.{ User ⇒ ApiUser }
-import im.actor.server.ApiConversions
+import im.actor.api.rpc.users.ApiUser
+import im.actor.server.{ KeyValueMappings, ApiConversions }
 import ApiConversions._
 import im.actor.server.acl.ACLUtils
-import im.actor.server.commons.KeyValueMappings
 import ContactsUtils.localNameKey
 import shardakka.ShardakkaExtension
 
